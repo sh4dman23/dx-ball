@@ -1,3 +1,21 @@
+#include <raylib.h>
+#include <raymath.h>
+#include <render.h>
+#include <mainmenu.h>
+#include <gamestates.h>
+
+// Core game UI
+const double PADDING_ABOVE_UI = 20;
+const double PADDING_SIDES_UI = 20;
+
+// Debug view
+bool debugView = false;
+
+// Textures
+Texture2D lifeTexture;                      // Texture for life
+
+/* ===================================== Function Definitions ===================================== */
+
 // Load all textures
 void loadSprites()
 {
@@ -482,4 +500,31 @@ void drawDebugView()
     // brick outlines
     for (int i = 0; i < numBricks; i++)
         DrawRectangleLinesEx(bricks[i].rect, 1, RAYWHITE);
+}
+
+// Main menu animations
+void drawMainMenuLogoAnimations()
+{
+    float frameTime = GetFrameTime();
+    mainMenuLogoTimer += frameTime;
+    mainMenuBallTimer += frameTime;
+    if (mainMenuLogoTimer >= mainMenuLogoFrameTime)
+    {
+        mainMenuLogoTimer = 0.0f;
+        mainMenuLogoCurrentFrame = (mainMenuLogoCurrentFrame + 1) % MAIN_MENU_LOGO_END;
+    }
+    if (mainMenuBallTimer >= mainMenuBallFrameTime)
+    {
+        mainMenuBallTimer = 0.0f;
+        mainMenuBallCurrentFrame = (mainMenuBallCurrentFrame + 1) % MAIN_MENU_BALL_END;
+    }
+
+    for (int i = MAIN_MENU_LOGO_START - 1; i < MAIN_MENU_LOGO_END; i++)
+    {
+        DrawTexture(mainMenuLogo[mainMenuLogoCurrentFrame], (WINDOW_WIDTH - 600) / 2, WINDOW_HEIGHT / 2 - 230, WHITE);
+    }
+    for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
+    {
+        DrawTexture(mainMenuBall[mainMenuBallCurrentFrame], WINDOW_WIDTH - 180, WINDOW_HEIGHT - 180, WHITE);
+    }
 }

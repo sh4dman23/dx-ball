@@ -7,9 +7,11 @@
       "command": "gcc",
       "args": [
         "-g",
-        "${file}",
+        "${workspaceFolder}/main.c",
+        "${workspaceFolder}/src/*.c",
         "-I${workspaceFolder}/raylib/include",
         "-L${workspaceFolder}/raylib/lib",
+        "-I./src",
         "-lraylib",
         "-lopengl32",
         "-lgdi32",

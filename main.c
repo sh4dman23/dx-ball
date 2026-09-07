@@ -6,6 +6,9 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include <render.h>
+#include <mainmenu.h>
+#include <gamestates.h>
+#include <stats.h>
 
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
@@ -14,53 +17,6 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define GAME_WINDOW_TITLE "DXBall"
-
-//* Game States
-#define GS_MAIN_MENU 0   // 0 = main menu
-#define GS_MAIN_GAME 1   // 1 = main game
-#define GS_GAME_END 2    // 2 = game end
-#define GS_MAP_EDITOR 3  // 3 = map editor
-#define GS_HIGH_SCORES 4 // 4 = high scores
-
-//* Main menu
-#define MAIN_MENU_LOGO_START 1
-#define MAIN_MENU_LOGO_END 31
-#define MAIN_MENU_BALL_START 1
-#define MAIN_MENU_BALL_END 14
-#define MAIN_MENU_BUTTON_WIDTH 200
-#define MAIN_MENU_BUTTON_HEIGHT 40
-#define MAIN_MENU_TEXTURES_PATH "./assets/main_menu/"
-
-int gameState = GS_MAIN_MENU;
-bool exitGame = false;
-
-int mainMenuLogoCurrentFrame = 0;
-const float mainMenuLogoFrameTime = 0.065f;
-float mainMenuLogoTimer = 0.0f;
-int mainMenuBallCurrentFrame = 0;
-const float mainMenuBallFrameTime = (mainMenuLogoFrameTime / MAIN_MENU_LOGO_END) * MAIN_MENU_BALL_END / 1.8;
-float mainMenuBallTimer = 0.0f;
-
-// Texture for main menu
-Texture2D mainMenuLogo[MAIN_MENU_LOGO_END];
-Texture2D mainMenuBall[MAIN_MENU_BALL_END];
-
-//* Core game statistics
-int playerScore = 0;
-double scoreMultiplier = 1.0;
-int playtime = 0;
-int lives = 0;
-const int STARTING_LIVES = 3;
-
-const int BASE_BRICK_HIT_SCORE = 50;
-
-//* Core game UI
-const double PADDING_ABOVE_UI = 20;
-const double PADDING_SIDES_UI = 20;
-
-bool debugView = false;
-
-Texture2D lifeTexture;
 
 //* Game End Screen
 Texture2D victoryImage;
@@ -264,14 +220,7 @@ bool musicStopped = false;
 void initializeGame();
 
 void manageDebugView();
-void manageGameStateChanges();
 void switchGameState(int state);
-
-//* Main Menu
-void manageMainMenuScreen();
-void mainMenuLogoAnimations();
-void createMainMenuButtons();
-void checkMainMenuButtonClick(Vector2 mousePos);
 
 //* General updates
 void updateLoop();
@@ -394,16 +343,6 @@ int main(void)
     return 0;
 }
 
-void manageMainMenuScreen()
-{
-    if (gameState != GS_MAIN_MENU)
-        return;
-
-    ClearBackground(BLACK);
-    mainMenuLogoAnimations();
-    createMainMenuButtons();
-}
-
 // Manage all updates based on game state
 void updateLoop()
 {
@@ -442,162 +381,6 @@ void updateLoop()
     else if (gameState == GS_MAP_EDITOR)
     {
         checkMapEdit();
-    }
-}
-
-// Manage game state changes due to ingame user interaction
-void manageGameStateChanges()
-{
-    if (gameState == GS_MAIN_MENU)
-    {
-        checkMainMenuButtonClick(GetMousePosition());
-    }
-
-    // escape key pressed from any game state except main menu
-    if (gameState != GS_MAIN_MENU && IsKeyPressed(KEY_ESCAPE))
-    {
-        switchGameState(GS_MAIN_MENU);
-    }
-}
-
-// Switches game states, and does necessary changes
-void switchGameState(int state)
-{
-    if (gameState == state)
-        return;
-
-    // main game -> any other mode
-    if (gameState == GS_MAIN_GAME)
-    {
-        debugView = false;
-        lockBall();
-    }
-
-    // main game -> main menu
-    if (gameState == GS_MAIN_GAME && state == GS_MAIN_MENU)
-    {
-        // erase progress
-        setNewGame();
-    }
-
-    // main menu / main game -> map editor
-    if ((gameState == GS_MAIN_MENU || gameState == GS_MAIN_GAME) && state == GS_MAP_EDITOR)
-    {
-        setNewGame();
-    }
-
-    // main menu -> main game
-    if (gameState == GS_MAIN_MENU && state == GS_MAIN_GAME) {
-        setNewGame();
-    }
-
-    // end game -> any other mode (only main menu accessible)
-    if (gameState == GS_GAME_END)
-    {
-        setNewGame();
-    }
-
-    // map editor -> any other mode
-    if (gameState == GS_MAP_EDITOR)
-    {
-        // save changes
-        saveCurrentMap();
-
-        // switch to first map
-        switchToMap(0);
-    }
-
-    // hide cursor for main game
-    if (state == GS_MAIN_GAME)
-        HideCursor();
-    else
-        ShowCursor();
-
-    gameState = state;
-}
-
-// main menu animations
-void mainMenuLogoAnimations()
-{
-    float frameTime = GetFrameTime();
-    mainMenuLogoTimer += frameTime;
-    mainMenuBallTimer += frameTime;
-    if (mainMenuLogoTimer >= mainMenuLogoFrameTime)
-    {
-        mainMenuLogoTimer = 0.0f;
-        mainMenuLogoCurrentFrame = (mainMenuLogoCurrentFrame + 1) % MAIN_MENU_LOGO_END;
-    }
-    if (mainMenuBallTimer >= mainMenuBallFrameTime)
-    {
-        mainMenuBallTimer = 0.0f;
-        mainMenuBallCurrentFrame = (mainMenuBallCurrentFrame + 1) % MAIN_MENU_BALL_END;
-    }
-
-    for (int i = MAIN_MENU_LOGO_START - 1; i < MAIN_MENU_LOGO_END; i++)
-    {
-        DrawTexture(mainMenuLogo[mainMenuLogoCurrentFrame], (WINDOW_WIDTH - 600) / 2, WINDOW_HEIGHT / 2 - 230, WHITE);
-    }
-    for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
-    {
-        DrawTexture(mainMenuBall[mainMenuBallCurrentFrame], WINDOW_WIDTH - 180, WINDOW_HEIGHT - 180, WHITE);
-    }
-}
-
-// main menu buttons for changing states
-void createMainMenuButtons()
-{
-    const int buttonTextFontSize = 22;
-    Rectangle mainMenuButtonRect = {(WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2, WINDOW_HEIGHT / 2 - MAIN_MENU_BUTTON_HEIGHT, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT};
-    for (int i = 0; i < 4; i++)
-    {
-        char *menuButtonText;
-        switch (i)
-        {
-        case 0:
-            menuButtonText = "New Game";
-            break;
-        case 1:
-            menuButtonText = "Map Maker";
-            break;
-        case 2:
-            menuButtonText = "High Scores";
-            break;
-        case 3:
-            menuButtonText = "Exit";
-            break;
-        default:
-            break;
-        }
-        int textWidth = MeasureText(menuButtonText, buttonTextFontSize);
-        DrawText(menuButtonText, mainMenuButtonRect.x + (mainMenuButtonRect.width - textWidth) / 2, mainMenuButtonRect.y + (mainMenuButtonRect.height - buttonTextFontSize) / 2, buttonTextFontSize, WHITE);
-        mainMenuButtonRect.y += (10 + mainMenuButtonRect.height);
-    }
-}
-
-// Check button clicks in main menu
-void checkMainMenuButtonClick(Vector2 mousePos)
-{
-    int x = (WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2;
-    int y = WINDOW_HEIGHT / 2 - MAIN_MENU_BUTTON_HEIGHT;
-    bool insideRectX_Axis = (mousePos.x >= x && mousePos.x <= (x + MAIN_MENU_BUTTON_WIDTH));
-
-    if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT))
-    {
-        justMouseClicked = true;
-        switchGameState(GS_MAIN_GAME);
-    }
-    else if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y + MAIN_MENU_BUTTON_HEIGHT * 1 + 10 * 1 && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT * 2 + 10 * 1))
-    {
-        justMouseClicked = true;
-        switchGameState(GS_MAP_EDITOR);
-    }
-    else if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y + MAIN_MENU_BUTTON_HEIGHT * 2 + 10 * 2 && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT * 3 + 10 * 2))
-    {
-        switchGameState(GS_HIGH_SCORES);
-    }
-    else if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y + MAIN_MENU_BUTTON_HEIGHT * 3 + 10 * 3 && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT * 4 + 10 * 3))
-    {
-        exitGame = true;
     }
 }
 
