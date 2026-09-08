@@ -11,6 +11,7 @@ extern const int STARTING_LIVES;
 extern const int BASE_BRICK_HIT_SCORE;
 
 #define MAX_PLAYER_NAME_LENGTH 16               // Maximum length for player name
+extern char nameInputStr[MAX_PLAYER_NAME_LENGTH + 1];
 
 extern Texture2D lifeTexture;                   // Texture for life
 

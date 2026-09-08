@@ -7,12 +7,12 @@
 #define MUSIC_FILES_PATH "./audio/music"
 #define NUMBER_OF_MUSIC_FILES 5
 
-int currMusicIndex;
-Music currMusic;
+extern int currMusicIndex;
+extern Music currMusic;
 
 // flag for checking if music has just been stopped,
 // and next music has NOT yet loaded
-bool musicStopped;
+extern bool musicStopped;
 
 
 /* Function Prototypes */

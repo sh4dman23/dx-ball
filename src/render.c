@@ -5,8 +5,10 @@
 #include <time.h>
 
 #include <render.h>
+#include <coregame.h>
 #include <mainmenu.h>
 #include <gamestates.h>
+#include <highscores.h>
 #include <stats.h>
 #include <ball.h>
 #include <paddle.h>
@@ -14,6 +16,8 @@
 #include <bricks.h>
 #include <maps.h>
 #include <mapeditor.h>
+#include <perks.h>
+#include <debugview.h>
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;

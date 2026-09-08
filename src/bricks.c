@@ -5,9 +5,6 @@
 #include <bricks.h>
 #include <maps.h>
 
-const float BRICK_WIDTH = 60;
-const float BRICK_HEIGHT = 20;
-
 // values based on dimensions
 int maxBrickRows = (WINDOW_HEIGHT - PADDING_ABOVE_MAP - PADDING_BELOW_MAP) / BRICK_HEIGHT;
 int maxBrickCols = (WINDOW_WIDTH - PADDING_ON_MAP_SIDES * 2) / BRICK_WIDTH;

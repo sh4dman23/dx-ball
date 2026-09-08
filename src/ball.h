@@ -11,14 +11,14 @@ typedef struct Ball
 extern Ball ball;
 extern Texture2D ballImage;
 
-const Vector2 INITIAL_BALL_SPEED;       // base starting speed
-const Vector2 ACCELERATED_BALL_SPEED;   // speed after which the ball will start decelerating
-const Vector2 BALL_ACCELERATION;        // deceleration rate for ball
+extern const Vector2 INITIAL_BALL_SPEED;       // base starting speed
+extern const Vector2 ACCELERATED_BALL_SPEED;   // speed after which the ball will start decelerating
+extern const Vector2 BALL_ACCELERATION;        // deceleration rate for ball
 
-const double BASE_BALL_RADIUS;
+extern const double BASE_BALL_RADIUS;
 extern bool ballLockedToPaddle;         // makes ball stick to paddle, until player presses space
-double lastBallLockTime;                // in seconds
-const double BALL_OSCILLATION_FREQ;     // oscillations per second
+extern double lastBallLockTime;                // in seconds
+extern const double BALL_OSCILLATION_FREQ;     // oscillations per second
 
 
 /* Function Prototypes */

@@ -26,7 +26,6 @@
 int main(void)
 {
     SetTraceLogLevel(LOG_ALL);
-    SetExitKey(KEY_NULL);
 
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_WINDOW_TITLE);
     InitAudioDevice();
@@ -37,6 +36,9 @@ int main(void)
 
     // initialize game
     initializeGame();
+
+    // set game to not exit by escape key
+    SetExitKey(KEY_NULL);
 
     // main loop
     while (!WindowShouldClose() && !exitGame)

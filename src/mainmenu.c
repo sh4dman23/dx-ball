@@ -3,6 +3,7 @@
 #include <mainmenu.h>
 #include <gamestates.h>
 #include <render.h>
+#include <coregame.h>
 
 bool exitGame = false;
 bool justMouseClicked = false;

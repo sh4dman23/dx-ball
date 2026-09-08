@@ -1,10 +1,15 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <string.h>
+#include <stdlib.h>
 
 #include <perks.h>
 #include <paddle.h>
-#include <stdlib.h>
+#include <collisions.h>
+#include <stats.h>
+#include <bricks.h>
+#include <ball.h>
+#include <coregame.h>
 
 const Vector2 PERK_IMG_SIZE = {32, 30};
 
@@ -113,7 +118,7 @@ void updatePerks()
             perks[i].pos = Vector2Add(perks[i].pos, Vector2Scale(PERK_SPEED, dt));
         }
 
-        checkPerkAndBrickCollision(i);
+        checkPerkAndPaddleCollision(i);
     }
 }
 

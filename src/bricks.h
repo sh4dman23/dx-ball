@@ -4,8 +4,8 @@
 // Bricks
 #define MAX_NUMBER_OF_BRICKS 1000
 
-extern const float BRICK_WIDTH;
-extern const float BRICK_HEIGHT;
+#define BRICK_WIDTH 60.0
+#define BRICK_HEIGHT 20.0
 
 extern int maxBrickRows;
 extern int maxBrickCols;

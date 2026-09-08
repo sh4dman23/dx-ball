@@ -15,8 +15,6 @@
 Texture2D victoryImage;
 Texture2D defeatImage;
 
-char nameInputStr[MAX_PLAYER_NAME_LENGTH + 1] = {'\0'};
-
 /* Function Definitions */
 
 // Check whether conditions for game end are met

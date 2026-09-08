@@ -5,7 +5,7 @@
 #include <ball.h>
 #include <paddle.h>
 
-//* Core game statistics
+// Game statistics
 int playerScore = 0;
 double scoreMultiplier = 1.0;
 int playtime = 0;
@@ -14,7 +14,11 @@ const int STARTING_LIVES = 3;
 
 const int BASE_BRICK_HIT_SCORE = 50;
 
-Texture2D lifeTexture;           // Texture for life
+// Player name input
+char nameInputStr[MAX_PLAYER_NAME_LENGTH + 1] = {'\0'};
+
+// Texture for life
+Texture2D lifeTexture;
 
 /* Function Definitions */
 

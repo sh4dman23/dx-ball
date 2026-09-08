@@ -7,11 +7,6 @@
 #include <coregame.h>
 #include <bricks.h>
 
-// paddings for map area
-const double PADDING_ABOVE_MAP = 100;
-const double PADDING_BELOW_MAP = 50;
-const double PADDING_ON_MAP_SIDES = ((WINDOW_WIDTH) % (int)BRICK_WIDTH + (int)BRICK_WIDTH) / 2;
-
 int currentMap = 0;
 int numberOfMaps = 0;
 

@@ -22,6 +22,7 @@ typedef struct Perk
 } Perk;
 
 #define NUMBER_OF_PERKS 7
+extern Perk perks[NUMBER_OF_PERKS];
 
 
 /* Function Prototypes */

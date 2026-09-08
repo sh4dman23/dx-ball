@@ -1,8 +1,13 @@
 #include <raylib.h>
 #include <raymath.h>
+
+#include <mainmenu.h>
+#include <coregame.h>
+#include <collisions.h>
 #include <paddle.h>
 #include <ball.h>
 #include <stats.h>
+#include <perks.h>
 #include <endgame.h>
 
 Paddle paddles[3];
