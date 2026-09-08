@@ -9,14 +9,15 @@
 #define MAIN_MENU_BUTTON_HEIGHT 40
 #define MAIN_MENU_TEXTURES_PATH "./assets/main_menu/"
 
-extern bool exitGame;
+extern bool exitGame;               // Flag to exit game
+extern bool justMouseClicked;       // Flag to block mouse input in frame where state changes from main menu to main game / map editor
 
 extern int mainMenuLogoCurrentFrame;
 extern const float mainMenuLogoFrameTime;
 extern float mainMenuLogoTimer;
 extern int mainMenuBallCurrentFrame;
 extern const float mainMenuBallFrameTime;
-extern const float mainMenuBallTimer;
+extern float mainMenuBallTimer;
 
 // Texture for main menu
 extern Texture2D mainMenuLogo[MAIN_MENU_LOGO_END];

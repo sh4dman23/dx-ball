@@ -2,8 +2,10 @@
 #include <raymath.h>
 #include <mainmenu.h>
 #include <gamestates.h>
+#include <render.h>
 
 bool exitGame = false;
+bool justMouseClicked = false;
 
 int mainMenuLogoCurrentFrame = 0;
 const float mainMenuLogoFrameTime = 0.065f;
@@ -22,7 +24,7 @@ void manageMainMenuScreen()
         return;
 
     ClearBackground(BLACK);
-    mainMenuLogoAnimations();
+    drawMainMenuLogoAnimations();
     createMainMenuButtons();
 }
 

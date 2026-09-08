@@ -1,10 +1,6 @@
 #ifndef RENDER_H
 #define RENDER_H
 
-extern bool debugView;                  // Flag for debug view
-
-extern Texture2D lifeTexture;           // Texture for life
-
 //* Function Prototypes
 
 // Sprites

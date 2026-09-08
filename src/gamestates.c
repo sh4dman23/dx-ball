@@ -1,7 +1,11 @@
 #include <raylib.h>
 #include <raymath.h>
+
 #include <gamestates.h>
 #include <mainmenu.h>
+#include <render.h>
+#include <ball.h>
+#include <debugview.h>
 
 int gameState = GS_MAIN_MENU;
 

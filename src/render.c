@@ -1,20 +1,25 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <stdio.h>
+#include <string.h>
+#include <time.h>
+
 #include <render.h>
 #include <mainmenu.h>
 #include <gamestates.h>
+#include <stats.h>
+#include <ball.h>
+#include <paddle.h>
+#include <endgame.h>
+#include <bricks.h>
+#include <maps.h>
+#include <mapeditor.h>
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;
 const double PADDING_SIDES_UI = 20;
 
-// Debug view
-bool debugView = false;
-
-// Textures
-Texture2D lifeTexture;                      // Texture for life
-
-/* ===================================== Function Definitions ===================================== */
+/* Function Definitions */
 
 // Load all textures
 void loadSprites()
@@ -180,16 +185,19 @@ void drawMainGameUI()
     }
 }
 
+// Ball
 void drawBall()
 {
     DrawTextureEx(ballImage, (Vector2){ball.pos.x - ball.radius, ball.pos.y - ball.radius}, 0.0f, 1.0f, WHITE);
 }
 
+// Paddle
 void drawPaddle()
 {
     DrawTextureEx(paddles[currentPaddle].image, (Vector2){paddles[currentPaddle].rect.x, paddles[currentPaddle].rect.y}, 0.0f, 1.0f, WHITE);
 }
 
+// Bricks
 void drawBricks()
 {
     for (int i = 0; i < numBricks; i++)
@@ -208,6 +216,7 @@ void drawBricks()
     }
 }
 
+// Perks
 void drawPerks()
 {
     for (int i = 0; i < NUMBER_OF_PERKS; i++)

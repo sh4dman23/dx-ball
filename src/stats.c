@@ -1,6 +1,9 @@
 #include <raylib.h>
 #include <raymath.h>
 #include <stats.h>
+#include <gamestates.h>
+#include <ball.h>
+#include <paddle.h>
 
 //* Core game statistics
 int playerScore = 0;
@@ -10,3 +13,53 @@ int lives = 0;
 const int STARTING_LIVES = 3;
 
 const int BASE_BRICK_HIT_SCORE = 50;
+
+Texture2D lifeTexture;           // Texture for life
+
+/* Function Definitions */
+
+// Increase lives by +1
+void increaseLives()
+{
+    if (lives >= STARTING_LIVES * 2)
+        return;
+
+    lives++;
+    //? play +life sound
+}
+
+// Update playtime variable every second
+void updatePlayTime()
+{
+    static double time = 0;
+    const double interval = 1.0;
+
+    if (gameState != GS_MAIN_GAME || ballLockedToPaddle)
+        return;
+
+    time += GetFrameTime();
+    if (time >= interval)
+    {
+        playtime++;
+        time = 0;
+    }
+}
+
+void resetStats()
+{
+    playerScore = 0;
+    lives = STARTING_LIVES;
+    playtime = 0;
+    scoreMultiplier = 1.0;
+}
+
+// Increase player score
+void increaseScore(int change)
+{
+    // score based on speed
+    // 50% more score for smaller paddle
+    int increase = change + 0.5 * change * (currentPaddle == SHRUNK_PADDLE);
+    increase *= scoreMultiplier;
+
+    playerScore += increase;
+}
