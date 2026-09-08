@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <stdio.h>
 
 #include <mainmenu.h>
 #include <coregame.h>
@@ -9,6 +10,7 @@
 #include <stats.h>
 #include <perks.h>
 #include <endgame.h>
+#include <gamestates.h>
 
 Paddle paddles[3];
 
@@ -40,6 +42,8 @@ void resetPaddle()
 // Update paddle position based on player input
 void updatePaddle()
 {
+    lockMouseToPaddle();
+
     // required for controlling paddle by mouse
     static Vector2 prevMouse = (Vector2) {WINDOW_WIDTH / 2, WINDOW_HEIGHT / 2};
 
@@ -81,6 +85,20 @@ void updatePaddle()
     else if (paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width > GetScreenWidth())
     {
         paddles[currentPaddle].rect.x = GetScreenWidth() - paddles[currentPaddle].rect.width;
+    }
+}
+
+// Make it so that mouse cannot exit window while in main game
+void lockMouseToPaddle() {
+    if (gameState != GS_MAIN_GAME)
+        return;
+
+    if (!IsCursorHidden())
+        DisableCursor();
+
+    Vector2 mousePos = GetMousePosition();
+    if (!CheckCollisionPointRec(mousePos, (Rectangle) {0, 0, WINDOW_WIDTH, WINDOW_HEIGHT})) {
+        SetMousePosition(paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width / 2, GetScreenHeight() / 2);
     }
 }
 

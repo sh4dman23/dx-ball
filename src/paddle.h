@@ -21,6 +21,7 @@ extern int currentPaddle;
 /* Function Prototypes */
 void resetPaddle();                 // Reset paddle to starting position and base type
 void updatePaddle();                // Update paddle position based on player input
+void lockMouseToPaddle();           // Make it so that mouse cannot exit window while in main game
 
 void switchPaddle(int type);        // Switch paddle at current position
 

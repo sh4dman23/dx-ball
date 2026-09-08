@@ -76,10 +76,14 @@ void switchGameState(int state)
     }
 
     // hide cursor for main game
-    if (state == GS_MAIN_GAME)
+    if (state == GS_MAIN_GAME) {
         HideCursor();
-    else
+        DisableCursor();
+    }
+    else {
+        EnableCursor();
         ShowCursor();
+    }
 
     gameState = state;
 }
