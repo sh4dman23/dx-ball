@@ -2,6 +2,7 @@
 #include <raymath.h>
 #include <stdio.h>
 
+#include <audio.h>
 #include <mainmenu.h>
 #include <coregame.h>
 #include <collisions.h>
@@ -123,8 +124,10 @@ void switchPaddle(int type)
 // Reduce lives when ball falls below paddle
 void killPaddle()
 {
-    if (lives > 0)
+    if (lives > 0) {
         lives--;
+        playSfx(SFX_BALL_DROP);
+    }
     scoreMultiplier = 1.0;
 
     resetPaddle();

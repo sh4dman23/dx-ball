@@ -3,6 +3,7 @@
 #include <stdio.h>
 
 #include <mapeditor.h>
+#include <audio.h>
 #include <bricks.h>
 #include <maps.h>
 #include <mainmenu.h>
@@ -80,7 +81,7 @@ void setMapEditor()
 // Checks changes to map in map editor
 void checkMapEdit()
 {
-    //* So that the map doesn't update automatically
+    //* So that brick type doesnt change automatically as soon as editor opens
     if (IsMouseButtonUp(MOUSE_BUTTON_LEFT))
         justMouseClicked = false;
     if (justMouseClicked)
@@ -107,9 +108,11 @@ void checkMapEdit()
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
+                playSfx(SFX_ME_BRICK_CHANGE);
                 bricks[i].type = bricks[i].type + 1;
                 if (bricks[i].type > MAX_BRICK_TYPE)
                     bricks[i].type = MIN_BRICK_TYPE;
+                break;
             }
         }
     }
@@ -121,9 +124,11 @@ void checkMapEdit()
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
+                playSfx(SFX_ME_BRICK_CHANGE);
                 bricks[i].type = bricks[i].type - 1;
                 if (bricks[i].type < MIN_BRICK_TYPE)
                     bricks[i].type = MAX_BRICK_TYPE;
+                break;
             }
         }
     }
@@ -133,8 +138,10 @@ void checkMapEdit()
     {
         for (int i = 0; i < maxBrickCols * maxBrickRows; i++)
         {
-            if (CheckCollisionPointRec(mousePos, bricks[i].rect))
+            if (CheckCollisionPointRec(mousePos, bricks[i].rect) && bricks[i].type != 0)
             {
+                if (!isSfxPlaying(SFX_ME_BRICK_CHANGE))
+                    playSfx(SFX_ME_BRICK_CHANGE);
                 bricks[i].type = 0;
             }
         }
@@ -146,6 +153,7 @@ void checkMapEdit()
         // cycle maps left
         if (CheckCollisionPointRec(mousePos, mapEditorButtons[1]))
         {
+            playSfx(SFX_ME_BUTTON_CLICK);
             saveCurrentMap();
             switchToMap(currentMap - 1);
         }
@@ -153,6 +161,7 @@ void checkMapEdit()
         // cycle maps right
         else if (CheckCollisionPointRec(mousePos, mapEditorButtons[2]))
         {
+            playSfx(SFX_ME_BUTTON_CLICK);
             saveCurrentMap();
             switchToMap(currentMap + 1);
         }
@@ -160,12 +169,14 @@ void checkMapEdit()
         // add new map
         else if (CheckCollisionPointRec(mousePos, mapEditorButtons[3]))
         {
+            playSfx(SFX_ME_BUTTON_CLICK);
             addNewMap();
         }
 
         // delete current map
         else if (CheckCollisionPointRec(mousePos, mapEditorButtons[4]))
         {
+            playSfx(SFX_ME_BUTTON_CLICK);
             deleteCurrentMap();
         }
     }
@@ -173,11 +184,13 @@ void checkMapEdit()
     // arrow keys to change map
     if (IsKeyPressed(KEY_LEFT))
     {
+        playSfx(SFX_ME_BUTTON_CLICK);
         saveCurrentMap();
         switchToMap(currentMap - 1);
     }
     else if (IsKeyPressed(KEY_RIGHT))
     {
+        playSfx(SFX_ME_BUTTON_CLICK);
         saveCurrentMap();
         switchToMap(currentMap + 1);
     }

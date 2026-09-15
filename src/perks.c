@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include <perks.h>
+#include <audio.h>
 #include <paddle.h>
 #include <collisions.h>
 #include <stats.h>
@@ -176,6 +177,7 @@ void delayPerkSpawn()
 void activatePerk(int perkIndex)
 {
     canSpawnPerk = false;
+    playSfx(SFX_PERK_ACTIVATION);
 
     // score
     increaseScore(BASE_PERK_ACTIVATE_SCORE);

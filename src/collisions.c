@@ -1,6 +1,7 @@
 #include <raylib.h>
 #include <raymath.h>
 
+#include <audio.h>
 #include <ball.h>
 #include <bricks.h>
 #include <collisions.h>
@@ -88,6 +89,11 @@ bool checkBallNBrickCollisions()
                 ball.pos.y = bricks[i].rect.y - ball.radius - 1;
             }
         }
+
+        if (bricks[i].type == BRICK_UNBREAKABLE)
+            playSfx(SFX_UNBREAKABLE_BRICK_COLLIDE);
+        else
+            playSfx(SFX_BRICK_COLLIDE);
 
         degradeBrick(i);
     }
@@ -200,6 +206,7 @@ void bounceBallOnBoundaries()
             ball.pos.x = ball.radius;
         else
             ball.pos.x = GetScreenWidth() - ball.radius;
+        playSfx(SFX_WALL_COLLIDE);
     }
 
     // ball bounces off ceiling
@@ -207,6 +214,7 @@ void bounceBallOnBoundaries()
     {
         ball.speed.y *= -1;
         ball.pos.y = ball.radius;
+        playSfx(SFX_WALL_COLLIDE);
     }
     else if (ball.pos.y + ball.radius > GetScreenHeight())
     {
@@ -232,6 +240,9 @@ bool bounceBallOnPaddle()
         ball.speed.y *= -1;
         collision = true;
     }
+
+    if (collision)
+        playSfx(SFX_BOING);
 
     return collision;
 }

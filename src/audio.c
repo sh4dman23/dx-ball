@@ -5,11 +5,32 @@
 
 #include <audio.h>
 
-//? Sfx
+//* Sfx
+const float sfxVol = 0.7f;
 
-// Music
+//? All sfx files must be of type .wav
+// file name of audio files in filepath
+char *sfxFileNames[NUMBER_OF_SFX] = {
+    "BallDrop",
+    "BrickCollide",
+    "UnbreakableBrickCollide",
+    "Boing",
+    "BrickExplosion",
+    "Laser",
+    "PerkActivation",
+    "WallCollide",
+    "Click",
+    "Click2",
+};
+
+// container for audio files
+Sound sounds[NUMBER_OF_SFX];
+
+//* Music
 int currMusicIndex = 0;
 Music currMusic;
+
+const float musicVol = 1.0f;
 
 // flag for checking if music has just been stopped,
 // and next music has NOT yet loaded
@@ -71,7 +92,7 @@ void switchMusic(int musicIndex)
     PlayMusicStream(currMusic);
 
     //! unimplemented: game audio
-    SetMusicVolume(currMusic, 1.0);
+    SetMusicVolume(currMusic, musicVol);
 
     // reset music stopped flag
     musicStopped = false;
@@ -89,9 +110,35 @@ void checkMusicChange()
     }
 }
 
+// Play sfx
+void playSfx(SfxID id) {
+    if (id < 0 || id >= NUMBER_OF_SFX)
+        return;
+    SetSoundVolume(sounds[id], sfxVol);
+    PlaySound(sounds[id]);
+}
+
+// Check if sfx is playing
+bool isSfxPlaying(SfxID id) {
+    return IsSoundPlaying(sounds[SFX_ME_BRICK_CHANGE]);
+}
+
+// Load all sfx
+void loadAllAudio() {
+    for (int i = 0; i < NUMBER_OF_SFX; i++) {
+        char filename[50];
+        sprintf(filename, "%s/%s.wav", SFX_FILES_PATH, sfxFileNames[i]);
+        sounds[i] = LoadSound(filename);
+    }
+}
+
 // Unload all sfx and music
-void unloadAudio()
+void unloadAllAudio()
 {
+    for (int i = 0; i < NUMBER_OF_SFX; i++) {
+        UnloadSound(sounds[i]);
+    }
+
     if (IsMusicValid(currMusic))
         UnloadMusicStream(currMusic);
 }

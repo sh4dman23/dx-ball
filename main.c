@@ -7,21 +7,11 @@
 #include <stdlib.h>
 
 #include <audio.h>
-#include <ball.h>
-#include <bricks.h>
-#include <collisions.h>
 #include <coregame.h>
 #include <debugview.h>
-#include <endgame.h>
 #include <gamestates.h>
-#include <highscores.h>
 #include <mainmenu.h>
-#include <mapeditor.h>
-#include <maps.h>
-#include <paddle.h>
-#include <perks.h>
 #include <render.h>
-#include <stats.h>
 
 int main(void)
 {
@@ -32,6 +22,8 @@ int main(void)
 
     SetTargetFPS(60);
 
+    // load sounds and sprites
+    loadAllAudio();
     loadSprites();
 
     // initialize game
@@ -58,7 +50,7 @@ int main(void)
     }
 
     unloadSprites();
-    unloadAudio();
+    unloadAllAudio();
     CloseAudioDevice();
     CloseWindow();
     return 0;
