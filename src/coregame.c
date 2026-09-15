@@ -9,6 +9,7 @@
 #include <audio.h>
 #include <ball.h>
 #include <bricks.h>
+#include <explosivebricks.h>
 #include <collisions.h>
 #include <debugview.h>
 #include <endgame.h>
@@ -76,6 +77,8 @@ void updateLoop()
         updatePaddle();
         updateBall();
 
+        updateExplosiveBricks();
+
         // collisions
         checkAllCollisions();
 
@@ -95,6 +98,7 @@ void updateLoop()
     // map editor
     else if (gameState == GS_MAP_EDITOR)
     {
+        updateExplosiveBricks();
         checkMapEdit();
     }
 }

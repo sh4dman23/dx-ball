@@ -14,6 +14,7 @@
 #include <paddle.h>
 #include <endgame.h>
 #include <bricks.h>
+#include <explosivebricks.h>
 #include <maps.h>
 #include <mapeditor.h>
 #include <perks.h>
@@ -36,6 +37,7 @@ void unloadAllImages() {
 // Load all textures
 void loadSprites()
 {
+    // main menu logo
     for (int i = MAIN_MENU_LOGO_START - 1; i < MAIN_MENU_LOGO_END; i++)
     {
         char mainMenuLogoTextureFilePath[50];
@@ -43,6 +45,7 @@ void loadSprites()
         mainMenuLogo[i] = LoadTexture(mainMenuLogoTextureFilePath);
     }
 
+    // main menu ball
     for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
     {
         char mainMenuBallTextureFilePath[50];
@@ -74,7 +77,14 @@ void loadSprites()
     // high score title
     highScoresTitleImage = LoadTexture("./assets/ui/highScores.png");
 
-    // store brickTextures as: 0 1 2 3 ... -3 -2 -1
+    // explosive bricks (must be before bricks)
+    for (int i = 0; i < NUM_EXPLOSIVE_BRICK_FRAMES; i++) {
+        char filepath[50];
+        sprintf(filepath, "%s/%d.png", EXPLOSIVE_BRICKS_TEXTURES_PATH, i);
+        explosiveBrickTextures[i] = LoadTexture(filepath);
+    }
+
+    //* bricks : 0 1 2 3 ... -3 -2 -1
     for (int i = MIN_BRICK_TYPE; i <= MAX_BRICK_TYPE; i++)
     {
         char brickTextureFilePath[50];
@@ -86,6 +96,11 @@ void loadSprites()
             brickTextureIndex = i;
         else if (i < 0)
             brickTextureIndex = NUM_BRICK_TEXTURES + i + 1;
+
+        if (i == BRICK_EXPLOSIVE) {
+            brickTextures[brickTextureIndex] = explosiveBrickTextures[0];
+            continue;
+        }
 
         sprintf(brickTextureFilePath, "%s/%d.png", BRICK_TEXTURES_PATH, i);
         brickTextures[brickTextureIndex] = LoadTexture(brickTextureFilePath);
@@ -117,6 +132,8 @@ void unloadSprites()
 
     UnloadTexture(highScoresTitleImage);
 
+    for (int i = 0; i <= NUM_EXPLOSIVE_BRICK_FRAMES; i++)
+        UnloadTexture(explosiveBrickTextures[i]);
     for (int i = 0; i <= NUM_BRICK_TEXTURES; i++)
         UnloadTexture(brickTextures[i]);
 
@@ -189,11 +206,15 @@ void drawMainGameUI()
     // lives (right)
     for (int i = 0; i < lives; i++)
     {
-        DrawTextureRec(lifeTexture,
-                       (Rectangle){0, 0, lifeTexture.width, lifeTexture.height},
-                       (Vector2){GetScreenWidth() - PADDING_SIDES_UI - (i + 1) * lifeTexture.width - i * 5,
-                                 PADDING_ABOVE_UI + 20},
-                       WHITE);
+        DrawTextureRec(
+            lifeTexture,
+            (Rectangle){0, 0, lifeTexture.width, lifeTexture.height},
+            (Vector2){
+                GetScreenWidth() - PADDING_SIDES_UI - (i + 1) * lifeTexture.width - i * 5,
+                PADDING_ABOVE_UI + 20
+            },
+            WHITE
+        );
     }
 }
 
@@ -216,12 +237,14 @@ void drawBricks()
     {
         // pick texture
         Texture2D brickImage;
-        if (bricks[i].type == 0)
+        if (bricks[i].type == BRICK_EMPTY)
             continue;
+        else if (bricks[i].type == BRICK_EXPLOSIVE)
+            brickImage = explosiveBrickTextures[explosiveBrickFrame];               // animation frame for explosive brick
         else if (bricks[i].type > 0)
-            brickImage = brickTextures[bricks[i].type];
+            brickImage = brickTextures[bricks[i].type];                             // standard bricks
         else if (bricks[i].type < 0)
-            brickImage = brickTextures[NUM_BRICK_TEXTURES + bricks[i].type + 1];
+            brickImage = brickTextures[NUM_BRICK_TEXTURES + bricks[i].type + 1];    // special bricks (except explosives)
 
         // draw brick
         DrawTextureEx(brickImage, (Vector2){bricks[i].rect.x, bricks[i].rect.y}, 0.0f, 1.0f, WHITE);
