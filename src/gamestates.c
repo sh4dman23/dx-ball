@@ -80,7 +80,7 @@ void switchGameState(int state)
         HideCursor();
         DisableCursor();
     }
-    else {
+    else if (gameState == GS_MAIN_GAME) {
         EnableCursor();
         ShowCursor();
     }

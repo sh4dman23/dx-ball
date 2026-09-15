@@ -35,7 +35,8 @@ void resetPaddle()
     };
 
     // reset mouse position
-    SetMousePosition(paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width / 2, WINDOW_HEIGHT / 2);
+    if (gameState == GS_MAIN_GAME)
+        SetMousePosition(paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width / 2, WINDOW_HEIGHT / 2);
 
     paddles[currentPaddle].speed = PADDLE_SPEED;
 }
