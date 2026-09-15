@@ -3,6 +3,10 @@
 
 //* Function Prototypes
 
+// Images
+void loadAllImages();                   // Load all images (called before initwindow)
+void unloadAllImages();                 // Unload all images
+
 // Sprites
 void loadSprites();                     // Load all textures
 void unloadSprites();                   // Inverse function to loadSprites(); unloads all sprites

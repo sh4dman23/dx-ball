@@ -25,6 +25,14 @@ const double PADDING_SIDES_UI = 20;
 
 /* Function Definitions */
 
+void loadAllImages() {
+    iconImage = LoadImage(GAME_WINDOW_ICON_FILEPATH);
+}
+
+void unloadAllImages() {
+    UnloadImage(iconImage);
+}
+
 // Load all textures
 void loadSprites()
 {

@@ -22,6 +22,11 @@
 #include <render.h>
 #include <stats.h>
 
+// Icon for the window
+Image iconImage;
+
+/* Function Definitions */
+
 // Function called at start of program to initialize everything
 void initializeGame()
 {

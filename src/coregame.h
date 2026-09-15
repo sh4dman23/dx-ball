@@ -8,6 +8,8 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define GAME_WINDOW_TITLE "DXBall"
+#define GAME_WINDOW_ICON_FILEPATH "./assets/icon/icon256.png"
+extern Image iconImage;
 
 /* Function Prototypes */
 void initializeGame();      // Initialize everything at the start of the game

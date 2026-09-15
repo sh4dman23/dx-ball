@@ -20,6 +20,12 @@ int main(void)
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, GAME_WINDOW_TITLE);
     InitAudioDevice();
 
+    // icon
+    iconImage = LoadImage(GAME_WINDOW_ICON_FILEPATH);
+    SetWindowIcon(iconImage);
+    UnloadImage(iconImage);
+
+
     SetTargetFPS(60);
 
     // load sounds and sprites
