@@ -152,12 +152,12 @@ void checkMapEdit()
     manageMapSelections();
 
     //* edit selected bricks
-    if (GetMouseWheelMove() > 0) {
+    if (GetMouseWheelMove() > 0 || IsKeyPressed(KEY_UP)) {
         for (int i = 0; i < numBricks; i++)
             if (brickSelected[i])
                 changeBrickType(i, +1);
     }
-    else if (GetMouseWheelMove() < 0) {
+    else if (GetMouseWheelMove() < 0 || IsKeyPressed(KEY_DOWN)) {
         for (int i = 0; i < numBricks; i++)
             if (brickSelected[i])
                 changeBrickType(i, -1);
@@ -284,6 +284,9 @@ void changeBrickType(int brickIndex, int change) {
         bricks[brickIndex].type = MIN_BRICK_TYPE;
     if (bricks[brickIndex].type < MIN_BRICK_TYPE)
         bricks[brickIndex].type = MAX_BRICK_TYPE;
+
+    if (bricks[brickIndex].type == BRICK_EXPLODING)
+        changeBrickType(brickIndex, change);
 }
 
 // Toggle selection states for bricks when selected again
