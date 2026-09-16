@@ -78,6 +78,7 @@ void updateLoop()
         updateBall();
 
         updateExplosiveBricks();
+        updateExplosions();
 
         // collisions
         checkAllCollisions();

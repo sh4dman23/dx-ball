@@ -77,7 +77,7 @@ void loadSprites()
     // high score title
     highScoresTitleImage = LoadTexture("./assets/ui/highScores.png");
 
-    // explosive bricks (must be before bricks)
+    //* explosive bricks (must be before bricks)
     for (int i = 0; i < NUM_EXPLOSIVE_BRICK_FRAMES; i++) {
         char filepath[50];
         sprintf(filepath, "%s/%d.png", EXPLOSIVE_BRICKS_TEXTURES_PATH, i);
@@ -106,6 +106,13 @@ void loadSprites()
         brickTextures[brickTextureIndex] = LoadTexture(brickTextureFilePath);
     }
 
+    // explosion frames
+    for (int i = 0; i < NUM_EXPLOSION_FRAMES; i++) {
+        char filePath[100];
+        sprintf(filePath, "%s/%d.png", EXPLOSION_TEXTURES_PATH, i);
+        explosionFrames[i] = LoadTexture(filePath);
+    }
+
     // perks
     for (int i = 0; i < NUMBER_OF_PERKS; i++)
     {
@@ -127,27 +134,34 @@ void unloadSprites()
     UnloadTexture(lifeTexture);
     UnloadTexture(ballImage);
 
+    // paddles
     for (int i = 0; i < NUMBER_OF_PADDLES; i++)
         UnloadTexture(paddles[i].image);
 
     UnloadTexture(highScoresTitleImage);
 
+    // explosive bricks
     for (int i = 0; i <= NUM_EXPLOSIVE_BRICK_FRAMES; i++)
         UnloadTexture(explosiveBrickTextures[i]);
+
+    // bricks
     for (int i = 0; i <= NUM_BRICK_TEXTURES; i++)
         UnloadTexture(brickTextures[i]);
 
+    // explosion frames
+    for (int i = 0; i < NUM_EXPLOSION_FRAMES; i++) {
+        UnloadTexture(explosionFrames[i]);
+    }
+
+    // perks
     for (int i = 0; i < NUMBER_OF_PERKS; i++)
         UnloadTexture(perks[i].img);
 
+    // main menu logo and ball
     for (int i = MAIN_MENU_LOGO_START - 1; i < MAIN_MENU_LOGO_END; i++)
-    {
         UnloadTexture(mainMenuLogo[i]);
-    }
     for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
-    {
         UnloadTexture(mainMenuBall[i]);
-    }
 }
 
 // Contains all draw calls; func called inside game loop
@@ -237,8 +251,12 @@ void drawBricks()
     {
         // pick texture
         Texture2D brickImage;
-        if (bricks[i].type == BRICK_EMPTY)
-            continue;
+        if (bricks[i].type == BRICK_EMPTY) {
+            if (checkExplosion(i))
+                brickImage = explosionFrames[explosions[i].currentFrame];           // animation frame for explosion
+            else
+                continue;
+        }
         else if (bricks[i].type == BRICK_EXPLOSIVE)
             brickImage = explosiveBrickTextures[explosiveBrickFrame];               // animation frame for explosive brick
         else if (bricks[i].type > 0)

@@ -40,4 +40,11 @@ extern Texture2D brickTextures[NUM_BRICK_TEXTURES + 1];                 // store
 
 extern Brick bricks[MAX_NUMBER_OF_BRICKS];
 
+
+/* Function Prototypes */
+void degradeBrick(int brickIndex);              // Degrade brick, based on its type
+
+//!* update this when new brick type added
+bool isBrickBreakable(int brickIndex);           // Check if brick is breakable
+
 #endif

@@ -17,29 +17,6 @@ void checkAllCollisions()
     checkBallNBrickCollisions();
 }
 
-// Degrade brick, based on its type
-void degradeBrick(int brickIndex)
-{
-    // empty bricks and unbreakable bricks
-    if (bricks[brickIndex].type == BRICK_EMPTY || bricks[brickIndex].type == BRICK_UNBREAKABLE)
-        return;
-
-    // standard bricks
-    if (bricks[brickIndex].type > 0)
-    {
-        increaseScore(BASE_BRICK_HIT_SCORE * (1 + (fabs(ball.speed.x) / fabs(ACCELERATED_BALL_SPEED.x) / 2)));
-
-        // degrade brick
-        bricks[brickIndex].type--;
-
-        // brick destroyed completely
-        if (bricks[brickIndex].type == 0)
-            breakableBricksLeft--;
-    }
-
-    spawnPerk(brickIndex);
-}
-
 // Check collision between ball and bricks
 bool checkBallNBrickCollisions()
 {
@@ -92,6 +69,8 @@ bool checkBallNBrickCollisions()
 
         if (bricks[i].type == BRICK_UNBREAKABLE)
             playSfx(SFX_UNBREAKABLE_BRICK_COLLIDE);
+        else if (bricks[i].type == BRICK_EXPLOSIVE)
+            playSfx(SFX_BRICK_EXPLOSION);
         else
             playSfx(SFX_BRICK_COLLIDE);
 

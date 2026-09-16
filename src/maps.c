@@ -39,6 +39,8 @@ void setEmptyMap()
         px = PADDING_ON_MAP_SIDES;
         py += BRICK_HEIGHT;
     }
+
+    breakableBricksLeft = 0;
 }
 
 // Find number of maps and data related to that map
@@ -104,7 +106,7 @@ void readMapFromFile(FILE *mapFile)
             bricks[i * maxBrickCols + j].type = brickType;
 
             //* count number of bricks in level that can be broken
-            if (brickType == BRICK_STD1 || brickType == BRICK_STD2 || brickType == BRICK_STD3)
+            if (isBrickBreakable(i * maxBrickCols + j))
                 numBreakableBricks++;
         }
     }

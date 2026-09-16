@@ -3,12 +3,20 @@
 
 #include <bricks.h>
 #include <explosivebricks.h>
+#include <stats.h>
 
-const double EXPLOSIVE_BRICK_FRAMETIME = 0.02;
+const double EXPLOSIVE_BRICK_FRAMETIME = 0.03;
 int explosiveBrickFrame = 0;
 
-// stores frame for explosive bricks
+// Animation frames for explosive bricks
 Texture2D explosiveBrickTextures[NUM_EXPLOSIVE_BRICK_FRAMES];
+
+// Frames for explosion animation
+const double EXPLOSION_FRAMETIME = 0.05;
+Texture2D explosionFrames[NUM_EXPLOSION_FRAMES];
+
+// Explosion data for every brick
+explosionData explosions[MAX_NUMBER_OF_BRICKS];
 
 /* Function Definitions */
 
@@ -20,5 +28,74 @@ void updateExplosiveBricks() {
     if (time >= EXPLOSIVE_BRICK_FRAMETIME) {
         explosiveBrickFrame = (explosiveBrickFrame + 1) % NUM_EXPLOSIVE_BRICK_FRAMES;
         time = 0;
+    }
+}
+
+// Detonate a brick
+void detonateBrick(int brickIndex) {
+    if (!isBrickBreakable(brickIndex))
+        return;
+
+    bool wasExplosive = bricks[brickIndex].type == BRICK_EXPLOSIVE;
+
+    // set explosion animation
+    bricks[brickIndex].type = BRICK_EMPTY;
+    setExplosion(brickIndex);
+
+    // score
+    increaseScore(BASE_BRICK_HIT_SCORE);
+
+    // update count on remaining bricks left
+    breakableBricksLeft--;
+
+    // detonate bricks adjacent to it
+    if (wasExplosive) {
+        int r = brickIndex / maxBrickCols, c = brickIndex % maxBrickCols;
+        for (int i = -1; i <= 1; i++) {
+            for (int j = -1; j <= 1; j++) {
+                if (i == 0 && j == 0)
+                    continue;
+
+                int bi2 = (r + i) * maxBrickCols + (c + j);
+                if (isBrickBreakable(bi2))
+                    detonateBrick(bi2);
+            }
+        }
+    }
+}
+
+// Set explosion animation to start
+void setExplosion(int brickIndex) {
+    bricks[brickIndex].type = BRICK_EMPTY;
+    explosions[brickIndex].setToExplode = true;
+    explosions[brickIndex].currentFrame = 0;
+    explosions[brickIndex].timeSinceLastUpdate = 0;
+}
+
+// Check if brick is in explosion animation
+bool checkExplosion(int brickIndex) {
+    if (brickIndex < 0 || brickIndex >= numBricks)
+        return false;
+    return explosions[brickIndex].setToExplode;
+}
+
+// Update explosion animation frame for every brick
+void updateExplosions() {
+    const double dt = GetFrameTime();
+    for (int i = 0; i < numBricks; i++) {
+        if (explosions[i].setToExplode == false)
+            continue;
+
+        explosions[i].timeSinceLastUpdate += dt;
+        if (explosions[i].timeSinceLastUpdate >= EXPLOSION_FRAMETIME) {
+            explosions[i].currentFrame++;
+            explosions[i].timeSinceLastUpdate = 0;
+
+            // explosion animation done
+            if (explosions[i].currentFrame >= NUM_EXPLOSION_FRAMES) {
+                explosions[i].setToExplode = false;
+                explosions[i].currentFrame = 0;
+            }
+        }
     }
 }
