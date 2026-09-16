@@ -26,10 +26,11 @@ typedef struct Brick
 #define BRICK_STD3          3           // standard brick 3
 #define BRICK_UNBREAKABLE   -1          // unbreakable brick
 #define BRICK_EXPLOSIVE     -2          // explosive brick
+#define BRICK_EXPLODING     -3          // brick that is currently exploding
 
 //* REQUIRED for map editor brick changes
 #define MAX_BRICK_TYPE 3        //* edit this after adding brick types
-#define MIN_BRICK_TYPE -2       //* edit this after adding brick types
+#define MIN_BRICK_TYPE -3       //* edit this after adding brick types
 
 // brick textures
 #define BRICK_TEXTURES_PATH             "./assets/bricks"               // textures for normal bricks

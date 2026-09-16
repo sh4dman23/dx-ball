@@ -25,7 +25,7 @@ int main(void)
     SetWindowIcon(iconImage);
     UnloadImage(iconImage);
 
-    SetTargetFPS(60);
+    SetTargetFPS(120);
 
     // load sounds and sprites
     loadAllAudio();

@@ -14,9 +14,11 @@ extern Texture2D explosiveBrickTextures[NUM_EXPLOSIVE_BRICK_FRAMES];    // Frame
 
 //* Explosions
 #define EXPLOSION_TEXTURES_PATH "./assets/bricks/explosive/explosion"
-#define NUM_EXPLOSION_FRAMES 9
+#define NUM_EXPLOSION_FRAMES 7
 extern const double EXPLOSION_FRAMETIME;
 extern Texture2D explosionFrames[NUM_EXPLOSION_FRAMES];                  // Frames for explosion animation
+
+extern int explosionsLeft;                                               // Keep track of explosions still happening
 
 typedef struct explosionData {
     bool setToExplode;
@@ -33,5 +35,6 @@ void detonateBrick(int brickIndex);         // Detonate a brick
 void setExplosion(int brickIndex);          // Set explosion animation to start
 bool checkExplosion(int brickIndex);        // Check if brick is in explosion animation
 void updateExplosions();                    // Update explosion animation frame for every brick
+void clearExplosions();                     // Clear all explosion data
 
 #endif

@@ -12,11 +12,14 @@ int explosiveBrickFrame = 0;
 Texture2D explosiveBrickTextures[NUM_EXPLOSIVE_BRICK_FRAMES];
 
 // Frames for explosion animation
-const double EXPLOSION_FRAMETIME = 0.05;
+const double EXPLOSION_FRAMETIME = 0.025;
 Texture2D explosionFrames[NUM_EXPLOSION_FRAMES];
 
 // Explosion data for every brick
 explosionData explosions[MAX_NUMBER_OF_BRICKS];
+
+// Keep track of explosions still happening
+int explosionsLeft = 0;
 
 /* Function Definitions */
 
@@ -39,7 +42,6 @@ void detonateBrick(int brickIndex) {
     bool wasExplosive = bricks[brickIndex].type == BRICK_EXPLOSIVE;
 
     // set explosion animation
-    bricks[brickIndex].type = BRICK_EMPTY;
     setExplosion(brickIndex);
 
     // score
@@ -66,7 +68,10 @@ void detonateBrick(int brickIndex) {
 
 // Set explosion animation to start
 void setExplosion(int brickIndex) {
-    bricks[brickIndex].type = BRICK_EMPTY;
+    explosionsLeft++;
+
+    bricks[brickIndex].type = BRICK_EXPLODING;
+
     explosions[brickIndex].setToExplode = true;
     explosions[brickIndex].currentFrame = 0;
     explosions[brickIndex].timeSinceLastUpdate = 0;
@@ -93,9 +98,20 @@ void updateExplosions() {
 
             // explosion animation done
             if (explosions[i].currentFrame >= NUM_EXPLOSION_FRAMES) {
+                explosionsLeft--;
+                bricks[i].type = BRICK_EMPTY;
+
                 explosions[i].setToExplode = false;
                 explosions[i].currentFrame = 0;
             }
         }
     }
+}
+
+// Clear explosion data
+void clearExplosions() {
+    for (int i = 0; i < numBricks; i++) {
+        explosions[i] = (explosionData) {0, 0, 0};
+    }
+    explosionsLeft = 0;
 }

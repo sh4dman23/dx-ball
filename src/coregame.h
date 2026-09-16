@@ -11,6 +11,8 @@
 #define GAME_WINDOW_ICON_FILEPATH "./assets/icon/icon256.png"
 extern Image iconImage;
 
+#define LEVEL_END_WAIT_TIME 0.25    // Time to wait after level ends
+
 /* Function Prototypes */
 void initializeGame();      // Initialize everything at the start of the game
 void setNewGame();          // Reset everything in memory for new game

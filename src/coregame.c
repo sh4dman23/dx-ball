@@ -57,6 +57,7 @@ void setNewGame()
 
     resetStats();
     resetAllInput();
+    clearExplosions();
 }
 
 // Manage all updates based on game state
@@ -104,12 +105,13 @@ void updateLoop()
     }
 }
 
-// Transition to next level
+// Clear up new level
 void setNewLevel()
 {
     resetPaddle();
     resetBall();
     resetAllInput();
+    resetPerks();
 
     // start new level with starting lives
     lives = STARTING_LIVES;
@@ -120,8 +122,17 @@ void setNewLevel()
 // Check whether all breakable bricks in current map are destroyed
 void checkLevelEnd()
 {
-    if (breakableBricksLeft > 0 || lives <= 0)
+    // bricks remain / lives remain / explosions still going off
+    if (breakableBricksLeft > 0 || lives <= 0 || explosionsLeft > 0)
         return;
+
+    //* wait for a bit
+    static double time = 0;
+    time += GetFrameTime();
+    if (time < LEVEL_END_WAIT_TIME)
+        return;
+    else
+        time = 0;
 
     // more levels left
     if (currentMap + 1 < numberOfMaps)

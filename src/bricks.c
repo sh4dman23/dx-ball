@@ -40,8 +40,8 @@ bool isBrickBreakable(int brickIndex) {
 // Degrade brick, based on its type
 void degradeBrick(int brickIndex)
 {
-    // empty bricks and unbreakable bricks
-    if (bricks[brickIndex].type == BRICK_EMPTY || bricks[brickIndex].type == BRICK_UNBREAKABLE)
+    // empty, unbreakable, exploding
+    if (!isBrickBreakable(brickIndex))
         return;
 
     // explosive bricks

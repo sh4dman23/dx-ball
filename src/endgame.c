@@ -10,6 +10,7 @@
 #include <ball.h>
 #include <highscores.h>
 #include <maps.h>
+#include <explosivebricks.h>
 
 //* Game End Screen
 Texture2D victoryImage;

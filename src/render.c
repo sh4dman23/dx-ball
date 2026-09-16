@@ -251,14 +251,12 @@ void drawBricks()
     {
         // pick texture
         Texture2D brickImage;
-        if (bricks[i].type == BRICK_EMPTY) {
-            if (checkExplosion(i))
-                brickImage = explosionFrames[explosions[i].currentFrame];           // animation frame for explosion
-            else
-                continue;
-        }
+        if (bricks[i].type == BRICK_EMPTY)
+            continue;
         else if (bricks[i].type == BRICK_EXPLOSIVE)
             brickImage = explosiveBrickTextures[explosiveBrickFrame];               // animation frame for explosive brick
+        else if (bricks[i].type == BRICK_EXPLODING)
+            brickImage = explosionFrames[explosions[i].currentFrame];               // animation frame for explosion
         else if (bricks[i].type > 0)
             brickImage = brickTextures[bricks[i].type];                             // standard bricks
         else if (bricks[i].type < 0)
