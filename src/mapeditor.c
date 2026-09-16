@@ -7,9 +7,19 @@
 #include <bricks.h>
 #include <maps.h>
 #include <mainmenu.h>
+#include <coregame.h>
 
+// Map editor buttons
 Rectangle mapEditorButtons[NUM_MAP_EDITOR_BUTTONS];
 Texture2D mapEditorButtonTextures[NUM_MAP_EDITOR_BUTTONS];
+
+// Map selections
+Vector2 mapSelectionPos[2] = {(Vector2) {-1, -1}, (Vector2) {-1, -1}};
+Rectangle mapSelectionRegion = (Rectangle){0, 0, 0, 0};
+
+bool brickSelected[MAX_NUMBER_OF_BRICKS] = { false };
+int selectedBricksCount = 0;
+
 
 /* Function Definitions */
 
@@ -78,6 +88,49 @@ void setMapEditor()
     }
 }
 
+// Map selections
+void manageMapSelections() {
+    Vector2 mousePos = GetMousePosition();
+    bool mouseInMapArea = CheckCollisionPointRec(mousePos, (Rectangle){
+        bricks[0].rect.x,
+        bricks[0].rect.y,
+        bricks[0].rect.x + BRICK_WIDTH * maxBrickCols,
+        bricks[0].rect.y + BRICK_HEIGHT * maxBrickRows
+    });
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON) && !mouseInMapArea)
+        clearMapEditorSelection();
+
+    if (IsKeyDown(KEY_LEFT_CONTROL)) {
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && mouseInMapArea) {
+            clearSelectionRegion();
+            mapSelectionPos[0] = mousePos;
+        }
+
+        if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !Vector2Equals(mapSelectionPos[0], (Vector2) {-1, -1}))
+            mapSelectionPos[1] = mousePos;
+
+        // update map selection region
+        mapSelectionRegion = (Rectangle) {
+            min(mapSelectionPos[0].x, mapSelectionPos[1].x),
+            min(mapSelectionPos[0].y, mapSelectionPos[1].y),
+            fabs(mapSelectionPos[1].x - mapSelectionPos[0].x),
+            fabs(mapSelectionPos[1].y - mapSelectionPos[0].y)
+        };
+
+        // finish selection
+        if (IsMouseButtonReleased(MOUSE_BUTTON_LEFT) && !Vector2Equals(mapSelectionPos[0], (Vector2) {-1, -1})) {
+            // set bricks selections here
+            updateBrickSelections();
+
+            clearSelectionRegion();
+        }
+    }
+
+    if (IsKeyUp(KEY_LEFT_CONTROL))
+        clearSelectionRegion();
+}
+
 // Checks changes to map in map editor
 void checkMapEdit()
 {
@@ -89,54 +142,82 @@ void checkMapEdit()
 
     Vector2 mousePos = GetMousePosition();
 
-    // save map
     if (IsKeyPressed(KEY_ENTER))
-    {
-        saveCurrentMap();
+        saveCurrentMap();                       // save map
+    else if (IsKeyPressed(KEY_BACKSPACE)) {
+        initializeCurrentMap();                 // reset all changes
+        clearMapEditorSelection();
     }
 
-    // reset all changes
-    else if (IsKeyPressed(KEY_BACKSPACE))
-    {
-        initializeCurrentMap();
+    manageMapSelections();
+
+    //* edit selected bricks
+    if (GetMouseWheelMove() > 0) {
+        for (int i = 0; i < numBricks; i++)
+            if (brickSelected[i])
+                changeBrickType(i, +1);
+    }
+    else if (GetMouseWheelMove() < 0) {
+        for (int i = 0; i < numBricks; i++)
+            if (brickSelected[i])
+                changeBrickType(i, -1);
+    }
+    else if (IsKeyPressed(KEY_DELETE)) {
+        for (int i = 0; i < numBricks; i++)
+            if (brickSelected[i])
+                bricks[i].type = BRICK_EMPTY;
     }
 
-    // cycle brick type right
-    else if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    //* cycle brick type right
+    if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !IsKeyDown(KEY_LEFT_CONTROL))
     {
-        for (int i = 0; i < maxBrickCols * maxBrickRows; i++)
+        clearSelectionRegion();
+        if (selectedBricksCount > 0) {
+            clearMapEditorSelection();
+            return;
+        }
+
+        for (int i = 0; i < numBricks; i++)
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
                 playSfx(SFX_ME_BRICK_CHANGE);
-                bricks[i].type = bricks[i].type + 1;
-                if (bricks[i].type > MAX_BRICK_TYPE)
-                    bricks[i].type = MIN_BRICK_TYPE;
+                changeBrickType(i, +1);
                 break;
             }
         }
     }
 
-    // cycle brick type left
-    else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT))
+    //* cycle brick type left
+    else if (IsMouseButtonPressed(MOUSE_BUTTON_RIGHT) && !IsKeyDown(KEY_LEFT_CONTROL))
     {
-        for (int i = 0; i < maxBrickCols * maxBrickRows; i++)
+        clearSelectionRegion();
+        if (selectedBricksCount > 0) {
+            clearMapEditorSelection();
+            return;
+        }
+
+        for (int i = 0; i < numBricks; i++)
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
                 playSfx(SFX_ME_BRICK_CHANGE);
-                bricks[i].type = bricks[i].type - 1;
-                if (bricks[i].type < MIN_BRICK_TYPE)
-                    bricks[i].type = MAX_BRICK_TYPE;
+                changeBrickType(i, -1);
                 break;
             }
         }
     }
 
-    // set empty brick
-    else if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE))
+    //* set empty brick
+    else if (IsMouseButtonDown(MOUSE_BUTTON_MIDDLE) && !IsKeyDown(KEY_LEFT_CONTROL))
     {
-        for (int i = 0; i < maxBrickCols * maxBrickRows; i++)
+        clearSelectionRegion();
+        if (selectedBricksCount > 0) {
+            clearMapEditorSelection();
+            return;
+        }
+
+        for (int i = 0; i < numBricks; i++)
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect) && bricks[i].type != 0)
             {
@@ -147,7 +228,7 @@ void checkMapEdit()
         }
     }
 
-    // interaction with map editor buttons
+    //* interaction with map editor buttons
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
         // cycle maps left
@@ -194,4 +275,39 @@ void checkMapEdit()
         saveCurrentMap();
         switchToMap(currentMap + 1);
     }
+}
+
+// Increase or decrease brick type in map editor
+void changeBrickType(int brickIndex, int change) {
+    bricks[brickIndex].type = bricks[brickIndex].type + change % (NUM_BRICK_TEXTURES + 1);
+    if (bricks[brickIndex].type > MAX_BRICK_TYPE)
+        bricks[brickIndex].type = MIN_BRICK_TYPE;
+    if (bricks[brickIndex].type < MIN_BRICK_TYPE)
+        bricks[brickIndex].type = MAX_BRICK_TYPE;
+}
+
+// Toggle selection states for bricks when selected again
+void updateBrickSelections() {
+    int selected = 0;
+    for (int i = 0; i < numBricks; i++) {
+        // toggle selection
+        if (CheckCollisionRecs(bricks[i].rect, mapSelectionRegion))
+            brickSelected[i] = !brickSelected[i];
+        selected += brickSelected[i];
+    }
+
+    selectedBricksCount = selected;
+}
+
+void clearSelectionRegion() {
+    mapSelectionPos[0] = (Vector2) {-1, -1};
+    mapSelectionPos[1] = (Vector2) {-1, -1};
+    mapSelectionRegion = (Rectangle) {0, 0, 0, 0};
+}
+
+void clearMapEditorSelection() {
+    clearSelectionRegion();
+    for (int i = 0; i < numBricks; i++)
+        brickSelected[i] = false;
+    selectedBricksCount = 0;
 }

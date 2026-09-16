@@ -336,7 +336,9 @@ void drawMapEditor()
                 bricks[0].rect.x,
                 bricks[0].rect.y,
                 maxBrickCols * BRICK_WIDTH,
-                maxBrickRows * BRICK_HEIGHT});
+                maxBrickRows * BRICK_HEIGHT
+            }
+        );
 
         Color numColor;
         if (i < maxBrickCols)
@@ -362,6 +364,9 @@ void drawMapEditor()
         }
     }
 
+    // map selection area
+    DrawRectangleRec(mapSelectionRegion, (Color) {255, 255, 255, 150});
+
     // bricks
     drawBricks();
 
@@ -373,6 +378,17 @@ void drawMapEditor()
             DrawRectangleLinesEx(bricks[i].rect, 2, highlighted);
         else
             DrawRectangleLinesEx(bricks[i].rect, 1, notHighlighted);
+    }
+
+    // selected bricks
+    for (int i = 0; i < numBricks; i++) {
+        if (brickSelected[i]) {
+            if (bricks[i].type == BRICK_EMPTY)
+                DrawRectangleRec(bricks[i].rect, (Color) {255, 255, 255, 0.2 * 255});
+            else
+                DrawRectangleRec(bricks[i].rect, (Color) {255, 255, 255, 0.4 * 255});
+            DrawRectangleLinesEx(bricks[i].rect, 1, highlighted);
+        }
     }
 }
 

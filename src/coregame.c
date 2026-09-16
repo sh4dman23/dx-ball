@@ -153,6 +153,7 @@ void checkLevelEnd()
 void resetAllInput()
 {
     sprintf(nameInputStr, "");
+    clearMapEditorSelection();
 }
 
 // Calculate perpendicular distance between point and a straight line
