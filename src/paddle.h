@@ -9,10 +9,18 @@ typedef struct Paddle
     Texture2D image;                // paddle texture
 } Paddle;
 
-#define NUMBER_OF_PADDLES 3
-#define BASE_PADDLE 0
-#define EXPANDED_PADDLE 1
-#define SHRUNK_PADDLE 2
+// #define NUMBER_OF_PADDLES 3
+// #define BASE_PADDLE 0
+// #define EXPANDED_PADDLE 1
+// #define SHRUNK_PADDLE 2
+
+typedef enum {
+    BASE_PADDLE = 0,
+    EXPANDED_PADDLE,
+    SHRUNK_PADDLE,
+    // add here
+    NUMBER_OF_PADDLES
+} PaddleType;
 
 extern Paddle paddles[NUMBER_OF_PADDLES];
 

@@ -40,6 +40,10 @@ void detonateBrick(int brickIndex) {
     if (!(isBrickBreakable(brickIndex) || bricks[brickIndex].type == BRICK_UNBREAKABLE))
         return;
 
+    // update count on remaining bricks left
+    if (isBrickBreakable(brickIndex))
+        breakableBricksLeft--;
+        
     bool wasExplosive = bricks[brickIndex].type == BRICK_EXPLOSIVE;
 
     // set explosion animation
@@ -47,9 +51,6 @@ void detonateBrick(int brickIndex) {
 
     // score
     increaseScore(BASE_BRICK_HIT_SCORE);
-
-    // update count on remaining bricks left
-    breakableBricksLeft--;
 
     // detonate bricks adjacent to it
     if (wasExplosive) {
