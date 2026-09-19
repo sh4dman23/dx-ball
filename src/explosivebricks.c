@@ -36,7 +36,8 @@ void updateExplosiveBricks() {
 
 // Detonate a brick
 void detonateBrick(int brickIndex) {
-    if (!isBrickBreakable(brickIndex))
+    //* unbreakable bricks CAN be destroyed by explosions in reference (https://dx-ball.ru)
+    if (!(isBrickBreakable(brickIndex) || bricks[brickIndex].type == BRICK_UNBREAKABLE))
         return;
 
     bool wasExplosive = bricks[brickIndex].type == BRICK_EXPLOSIVE;
@@ -59,7 +60,7 @@ void detonateBrick(int brickIndex) {
                     continue;
 
                 int bi2 = (r + i) * maxBrickCols + (c + j);
-                if (isBrickBreakable(bi2))
+                if (isBrickBreakable(bi2) || bricks[bi2].type == BRICK_UNBREAKABLE)
                     detonateBrick(bi2);
             }
         }
