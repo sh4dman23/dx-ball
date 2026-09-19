@@ -12,6 +12,7 @@
 #include <perks.h>
 #include <endgame.h>
 #include <gamestates.h>
+#include <laserpaddle.h>
 
 Paddle paddles[3];
 
@@ -25,6 +26,7 @@ const int SPACE_BELOW_PADDLE = 5;                       // pixels below paddle
 // Reset paddle to starting position and base type
 void resetPaddle()
 {
+    resetLasers();
     switchPaddle(BASE_PADDLE);
 
     paddles[currentPaddle].rect = (Rectangle) {

@@ -19,6 +19,8 @@ typedef enum {
     NUMBER_OF_SFX
 } SfxID;
 
+extern char *sfxFileNames[NUMBER_OF_SFX];   //* <- add filename here
+
 #define SFX_FILES_PATH "./audio/sfx"
 
 // Music

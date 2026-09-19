@@ -24,6 +24,7 @@ void drawBall();                        // Draw ball
 void drawPaddle();                      // Draw paddle
 void drawBricks();                      // Draw bricks
 void drawPerks();                       // Draw perks
+void drawLasers();                      // Draw laser particles
 
 void drawMainMenuLogoAnimations();      // Main menu animations
 

@@ -2,6 +2,7 @@
 #include <raymath.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include <perks.h>
 #include <audio.h>
@@ -11,6 +12,7 @@
 #include <bricks.h>
 #include <ball.h>
 #include <coregame.h>
+#include <laserpaddle.h>
 
 const Vector2 PERK_IMG_SIZE = {32, 30};
 
@@ -71,6 +73,12 @@ Perk perks[NUMBER_OF_PERKS] = {
         false,
     },
 
+    // Laser Paddle
+    (Perk) {
+        "laserpaddle",
+        2,
+        false,
+    }
 };
 
 
@@ -129,7 +137,9 @@ void spawnPerk(int brickIndex)
     if (!canSpawnPerk)
         return;
 
-    for (int i = 0; i < NUMBER_OF_PERKS; i++)
+    int *perkSequence = LoadRandomSequence(NUMBER_OF_PERKS, 0, NUMBER_OF_PERKS - 1);
+
+    for (int *p = perkSequence, i = *p; p - perkSequence < NUMBER_OF_PERKS; p++, i = *p)
     {
         // perk already on screen => no spawn
         if (!Vector2Equals(perks[i].pos, (Vector2){-1, -1}))
@@ -138,12 +148,13 @@ void spawnPerk(int brickIndex)
         char *name = perks[i].filename;
 
         // limits on specific perks to spawn
-        if (strcmp(name, "killpaddle") == 0 && lives >= STARTING_LIVES * 2) {
+        if (strcmp(name, "killpaddle") == 0 && lives >= STARTING_LIVES * 2)
             continue;
-        }
         else if (strcmp(name, "expandpaddle") == 0 && currentPaddle == EXPANDED_PADDLE)
             continue;
         else if (strcmp(name, "shrinkpaddle") == 0 && currentPaddle == SHRUNK_PADDLE)
+            continue;
+        else if (strcmp(name, "laserpaddle") == 0 && laserActivated)
             continue;
 
         // roll for rng
@@ -156,6 +167,8 @@ void spawnPerk(int brickIndex)
             return;
         }
     }
+
+    UnloadRandomSequence(perkSequence);
 }
 
 // Manage delay for perk spawn
@@ -214,6 +227,9 @@ void activatePerk(int perkIndex)
             ball.speed.x = ball.speed.x / fabs(ball.speed.y) * fabs(ACCELERATED_BALL_SPEED.y);
         }
     }
+    else if (strcmp(name, "laserpaddle") == 0) {
+        activateLaser();
+    }
 
     // set duration to max initial duration
     if (perks[perkIndex].timed)
@@ -231,6 +247,9 @@ void deactivatePerk(int perkIndex)
     }
     else if (strcmp(name, "expandpaddle") == 0 || strcmp(name, "shrinkpaddle") == 0) {
         switchPaddle(BASE_PADDLE);
+    }
+    else if (strcmp(name, "laserpaddle") == 0) {
+        deactivateLaser();
     }
 }
 

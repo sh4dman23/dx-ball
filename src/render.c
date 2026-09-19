@@ -19,6 +19,7 @@
 #include <mapeditor.h>
 #include <perks.h>
 #include <debugview.h>
+#include <laserpaddle.h>
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;
@@ -120,6 +121,9 @@ void loadSprites()
         sprintf(filename, "%s%s.png", PERKS_IMG_PATH, perks[i].filename);
         perks[i].img = LoadTexture(filename);
     }
+
+    // laser particle
+    laserTexture = LoadTexture(LASER_TEXTURE_FILEPATH);
 }
 
 // Inverse function to loadSprites(); unloads all sprites
@@ -162,6 +166,9 @@ void unloadSprites()
         UnloadTexture(mainMenuLogo[i]);
     for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
         UnloadTexture(mainMenuBall[i]);
+
+    // laser particle
+    UnloadTexture(laserTexture);
 }
 
 // Contains all draw calls; func called inside game loop
@@ -196,6 +203,7 @@ void drawMainGame()
     drawBall();
     drawBricks();
     drawPerks();
+    drawLasers();
     if (debugView)
         drawDebugView();
     else
@@ -276,6 +284,20 @@ void drawPerks()
         {
             // DrawRectangle(perks[i].pos.x, perks[i].pos.y, 32, 30, WHITE);
             DrawTextureEx(perks[i].img, perks[i].pos, 0, 1, WHITE);
+        }
+    }
+}
+
+// Lasers
+void drawLasers() {
+    for (int i = 0; i < MAX_LASERS_PER_SCREEN; i++) {
+        if (lasers[i].leftOnScreen) {
+            DrawTextureV(laserTexture, lasers[i].left, WHITE);
+            // DrawRectangleV(lasers[i].left, (Vector2){laserTexture.width, laserTexture.height}, WHITE);
+        }
+        if (lasers[i].rightOnScreen) {
+            DrawTextureV(laserTexture, lasers[i].right, WHITE);
+            // DrawRectangleV(lasers[i].left, (Vector2){laserTexture.width, laserTexture.height}, WHITE);
         }
     }
 }

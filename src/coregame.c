@@ -22,6 +22,7 @@
 #include <perks.h>
 #include <render.h>
 #include <stats.h>
+#include <laserpaddle.h>
 
 // Icon for the window
 Image iconImage;
@@ -78,6 +79,8 @@ void updateLoop()
         updatePaddle();
         updateBall();
 
+        updateLasers();
+
         updateExplosiveBricks();
         updateExplosions();
 
@@ -112,6 +115,7 @@ void setNewLevel()
     resetBall();
     resetAllInput();
     resetPerks();
+    resetLasers();
 
     // start new level with starting lives
     lives = STARTING_LIVES;

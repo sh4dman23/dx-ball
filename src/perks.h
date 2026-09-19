@@ -21,7 +21,7 @@ typedef struct Perk
     Texture2D img;
 } Perk;
 
-#define NUMBER_OF_PERKS 7
+#define NUMBER_OF_PERKS 8
 extern Perk perks[NUMBER_OF_PERKS];
 
 
