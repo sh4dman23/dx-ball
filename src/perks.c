@@ -49,6 +49,7 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk){
         "expandpaddle",
         4,
+        // 100,
         false,
     },
 
@@ -56,6 +57,7 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk){
         "shrinkpaddle",
         4,
+        // 100,
         false,
     },
 
@@ -77,6 +79,7 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk) {
         "laserpaddle",
         2,
+        // 100,
         false,
     }
 };

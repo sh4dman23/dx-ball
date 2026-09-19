@@ -14,7 +14,7 @@
 #include <gamestates.h>
 #include <laserpaddle.h>
 
-Paddle paddles[3];
+Paddle paddles[NUMBER_OF_PADDLES];
 
 int currentPaddle = BASE_PADDLE;
 

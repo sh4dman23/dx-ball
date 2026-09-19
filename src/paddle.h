@@ -18,7 +18,13 @@ typedef enum {
     BASE_PADDLE = 0,
     EXPANDED_PADDLE,
     SHRUNK_PADDLE,
-    // add here
+
+    // laser paddle types, ONLY USED FOR DRAWING!
+    BASE_LASER_PADDLE,
+    EXPANDED_LASER_PADDLE,
+    SHRUNK_LASER_PADDLE,
+
+    // add above
     NUMBER_OF_PADDLES
 } PaddleType;
 

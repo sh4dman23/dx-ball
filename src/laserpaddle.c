@@ -84,11 +84,11 @@ bool spawnLaser() {
             .leftOnScreen = true,
             .rightOnScreen = true,
             .left = (Vector2) {
-                paddles[currentPaddle].rect.x,
+                paddles[currentPaddle].rect.x - laserTexture.width / 2 + 7,
                 paddles[currentPaddle].rect.y - laserTexture.height
             },
             .right = (Vector2) {
-                paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width - laserTexture.width,
+                paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width - 7 - laserTexture.width / 2,
                 paddles[currentPaddle].rect.y - laserTexture.height
             }
         };

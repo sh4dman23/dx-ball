@@ -249,7 +249,27 @@ void drawBall()
 // Paddle
 void drawPaddle()
 {
-    DrawTextureEx(paddles[currentPaddle].image, (Vector2){paddles[currentPaddle].rect.x, paddles[currentPaddle].rect.y}, 0.0f, 1.0f, WHITE);
+    if (!laserActivated) {
+        // normal paddle
+        DrawTextureEx(paddles[currentPaddle].image, (Vector2){paddles[currentPaddle].rect.x, paddles[currentPaddle].rect.y}, 0.0f, 1.0f, WHITE);
+    }
+    else {
+        // laser paddle
+        int currLaserPaddle = BASE_LASER_PADDLE;
+        if (currentPaddle == EXPANDED_PADDLE)
+            currLaserPaddle = EXPANDED_LASER_PADDLE;
+        else if (currentPaddle == SHRUNK_PADDLE)
+            currLaserPaddle = SHRUNK_LASER_PADDLE;
+
+            DrawTextureEx(
+                paddles[currLaserPaddle].image,
+                (Vector2) {
+                    paddles[currentPaddle].rect.x,
+                    paddles[currentPaddle].rect.y + paddles[currentPaddle].rect.height - paddles[currLaserPaddle].image.height
+                },
+                0.0f, 1.0f, WHITE
+            );
+    }
 }
 
 // Bricks
