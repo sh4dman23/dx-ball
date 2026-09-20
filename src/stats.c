@@ -62,7 +62,8 @@ void increaseScore(int change)
 {
     // score based on speed
     // 50% more score for smaller paddle
-    int increase = change + 0.5 * change * (currentPaddle == SHRUNK_PADDLE);
+    // 50% more score for shrunk ball
+    int increase = change * (1 + 0.5 * (currentPaddle == SHRUNK_PADDLE) + 0.5 * (ball.radius == SHRUNK_BALL_RADIUS));
     increase *= scoreMultiplier;
 
     playerScore += increase;

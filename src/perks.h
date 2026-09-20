@@ -13,7 +13,7 @@ extern bool canSpawnPerk;                       // flag for perk spawn
 
 typedef struct Perk
 {
-    char filename[30];                          // without .png
+    char filename[30];                          // name without .png
     double spawnChance;                         // in %
     bool timed;                                 // whether or not perk has timer
     Vector2 pos;                                // position of perk image when falling
@@ -21,7 +21,7 @@ typedef struct Perk
     Texture2D img;
 } Perk;
 
-#define NUMBER_OF_PERKS 8
+#define NUMBER_OF_PERKS 10
 extern Perk perks[NUMBER_OF_PERKS];
 
 
@@ -29,6 +29,7 @@ extern Perk perks[NUMBER_OF_PERKS];
 void resetPerks();                                  // Reset all perks to be deactivated and despawned
 void updatePerks();                                 // Manage perk positions and durations
 void spawnPerk(int brickIndex);                     // Spawn perk after ball hits a brick
+bool isPerkSpawnable(int perkIndex);                // Check if perk can be spawned
 void delayPerkSpawn();                              // Manage delay for perk spawn
 void activatePerk(int perkIndex);                   // Activate effects of perk
 void deactivatePerk(int perkIndex);                 // Remove effects of perk

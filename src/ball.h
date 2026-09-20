@@ -16,6 +16,8 @@ extern const Vector2 ACCELERATED_BALL_SPEED;   // speed after which the ball wil
 extern const Vector2 BALL_ACCELERATION;        // deceleration rate for ball
 
 extern const double BASE_BALL_RADIUS;
+extern const double MEGA_BALL_RADIUS;
+extern const double SHRUNK_BALL_RADIUS;
 extern bool ballLockedToPaddle;         // makes ball stick to paddle, until player presses space
 extern double lastBallLockTime;                // in seconds
 extern const double BALL_OSCILLATION_FREQ;     // oscillations per second

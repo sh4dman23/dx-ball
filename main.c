@@ -6,12 +6,12 @@
 #include <ctype.h>
 #include <stdlib.h>
 
-#include <audio.h>
-#include <coregame.h>
-#include <debugview.h>
-#include <gamestates.h>
-#include <mainmenu.h>
-#include <render.h>
+#include "audio.h"
+#include "coregame.h"
+#include "debugview.h"
+#include "gamestates.h"
+#include "mainmenu.h"
+#include "render.h"
 
 int main(void)
 {

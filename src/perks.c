@@ -78,7 +78,23 @@ Perk perks[NUMBER_OF_PERKS] = {
     // Laser Paddle
     (Perk) {
         "laserpaddle",
-        2,
+        4,
+        // 100,
+        false,
+    },
+
+    // Shrink Ball
+    (Perk) {
+        "shrinkball",
+        8,
+        // 100,
+        false,
+    },
+
+    // Mega Ball
+    (Perk) {
+        "megaball",
+        4,
         // 100,
         false,
     }
@@ -148,16 +164,7 @@ void spawnPerk(int brickIndex)
         if (!Vector2Equals(perks[i].pos, (Vector2){-1, -1}))
             continue;
 
-        char *name = perks[i].filename;
-
-        // limits on specific perks to spawn
-        if (strcmp(name, "killpaddle") == 0 && lives >= STARTING_LIVES * 2)
-            continue;
-        else if (strcmp(name, "expandpaddle") == 0 && currentPaddle == EXPANDED_PADDLE)
-            continue;
-        else if (strcmp(name, "shrinkpaddle") == 0 && currentPaddle == SHRUNK_PADDLE)
-            continue;
-        else if (strcmp(name, "laserpaddle") == 0 && laserActivated)
+        if (!isPerkSpawnable(i))
             continue;
 
         // roll for rng
@@ -172,6 +179,36 @@ void spawnPerk(int brickIndex)
     }
 
     UnloadRandomSequence(perkSequence);
+}
+
+// Check if perk can be spawned
+bool isPerkSpawnable(int perkIndex) {
+    char *name = perks[perkIndex].filename;
+
+    // limits on specific perks to spawn
+    if (
+        // has double the initial lives (max lives)
+        (strcmp(name, "extralife") == 0 && lives >= STARTING_LIVES * 2) ||
+
+        // paddle already expanded
+        (strcmp(name, "expandpaddle") == 0 && currentPaddle == EXPANDED_PADDLE) ||
+
+        // paddle already shrunk
+        (strcmp(name, "shrinkpaddle") == 0 && currentPaddle == SHRUNK_PADDLE) ||
+
+        // laser already active
+        (strcmp(name, "laserpaddle") == 0 && laserActivated) ||
+
+        // ball already mega
+        (strcmp(name, "megaball") == 0 && ball.radius == MEGA_BALL_RADIUS) ||
+
+        // ball already shrunk
+        (strcmp(name, "shrinkball") == 0 && ball.radius == SHRUNK_BALL_RADIUS)
+    ) {
+        return false;
+    }
+
+    return true;
 }
 
 // Manage delay for perk spawn
@@ -208,7 +245,7 @@ void activatePerk(int perkIndex)
     }
     else if (strcmp(name, "doublepoints") == 0) {
         if (perks[perkIndex].duration <= 0)
-            scoreMultiplier *= 2;
+            scoreMultiplier += 2;
     }
     else if (strcmp(name, "expandpaddle") == 0) {
         switchPaddle(currentPaddle == SHRUNK_PADDLE ? BASE_PADDLE : EXPANDED_PADDLE);
@@ -233,6 +270,20 @@ void activatePerk(int perkIndex)
     else if (strcmp(name, "laserpaddle") == 0) {
         activateLaser();
     }
+    else if (strcmp(name, "megaball") == 0) {
+        if (ball.radius == BASE_BALL_RADIUS)
+            ball.radius = MEGA_BALL_RADIUS;
+        else if (ball.radius == SHRUNK_BALL_RADIUS) {
+            ball.radius = BASE_BALL_RADIUS;
+        }
+    }
+    else if (strcmp(name, "shrinkball") == 0) {
+        if (ball.radius == BASE_BALL_RADIUS) {
+            ball.radius = SHRUNK_BALL_RADIUS;
+        }
+        else if (ball.radius == MEGA_BALL_RADIUS)
+            ball.radius = BASE_BALL_RADIUS;
+    }
 
     // set duration to max initial duration
     if (perks[perkIndex].timed)
@@ -246,7 +297,7 @@ void deactivatePerk(int perkIndex)
 
     char *name = perks[perkIndex].filename;
     if (strcmp(name, "doublepoints") == 0) {
-        scoreMultiplier /= 2;
+        scoreMultiplier -= 2;
     }
     else if (strcmp(name, "expandpaddle") == 0 || strcmp(name, "shrinkpaddle") == 0) {
         switchPaddle(BASE_PADDLE);

@@ -5,24 +5,24 @@
 #include <stdlib.h>
 #include <time.h>
 
-#include <coregame.h>
-#include <audio.h>
-#include <ball.h>
-#include <bricks.h>
-#include <explosivebricks.h>
-#include <collisions.h>
-#include <debugview.h>
-#include <endgame.h>
-#include <gamestates.h>
-#include <highscores.h>
-#include <mainmenu.h>
-#include <mapeditor.h>
-#include <maps.h>
-#include <paddle.h>
-#include <perks.h>
-#include <render.h>
-#include <stats.h>
-#include <laserpaddle.h>
+#include "coregame.h"
+#include "audio.h"
+#include "ball.h"
+#include "bricks.h"
+#include "explosivebricks.h"
+#include "collisions.h"
+#include "debugview.h"
+#include "endgame.h"
+#include "gamestates.h"
+#include "highscores.h"
+#include "mainmenu.h"
+#include "mapeditor.h"
+#include "maps.h"
+#include "paddle.h"
+#include "perks.h"
+#include "render.h"
+#include "stats.h"
+#include "laserpaddle.h"
 
 // Icon for the window
 Image iconImage;
@@ -52,8 +52,9 @@ void setNewGame()
 
     initializeCurrentMap();
 
-    resetBall();
+    scoreMultiplier = 1;
     resetPaddle();
+    resetBall();
     resetPerks();
 
     resetStats();

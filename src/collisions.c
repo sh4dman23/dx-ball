@@ -67,14 +67,11 @@ bool checkBallNBrickCollisions()
             }
         }
 
-        if (bricks[i].type == BRICK_UNBREAKABLE)
-            playSfx(SFX_UNBREAKABLE_BRICK_COLLIDE);
-        else if (bricks[i].type == BRICK_EXPLOSIVE)
-            playSfx(SFX_BRICK_EXPLOSION);
-        else
-            playSfx(SFX_BRICK_COLLIDE);
-
         degradeBrick(i);
+
+        // score based on ball speed
+        if (isBrickBreakable(i))
+            increaseScore(BASE_BRICK_HIT_SCORE * (1 + (fabs(ball.speed.x) / fabs(ACCELERATED_BALL_SPEED.x) / 2)));
     }
 
     return collision;
@@ -207,16 +204,17 @@ bool bounceBallOnPaddle()
     bool collision = false;
 
     // 4 pixels of extra length on both sides to allow for fairer jump
-    if (ball.pos.x >= paddles[currentPaddle].rect.x - 4 && ball.pos.x <= paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width + 4 &&
+    if (ball.pos.x >= paddles[currentPaddle].rect.x - 2 && ball.pos.x <= paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width + 2 &&
         ball.pos.y + ball.radius > paddles[currentPaddle].rect.y)
     {
         ball.speed.y *= -1;
         ball.pos.y = paddles[currentPaddle].rect.y - ball.radius - 1;
         collision = true;
     }
-    else if (CheckCollisionCircleRec(ball.pos, ball.radius, (Rectangle){paddles[currentPaddle].rect.x - 4, paddles[currentPaddle].rect.y, paddles[currentPaddle].rect.width + 8, paddles[currentPaddle].rect.height}))
+    else if (CheckCollisionCircleRec(ball.pos, ball.radius, (Rectangle){paddles[currentPaddle].rect.x - 2, paddles[currentPaddle].rect.y, paddles[currentPaddle].rect.width + 4, paddles[currentPaddle].rect.height}))
     {
         ball.speed.y *= -1;
+        // ball.pos.y = paddles[currentPaddle].rect.y - ball.radius;
         collision = true;
     }
 

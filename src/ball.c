@@ -1,10 +1,10 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#include <ball.h>
-#include <collisions.h>
-#include <coregame.h>
-#include <paddle.h>
+#include "ball.h"
+#include "collisions.h"
+#include "coregame.h"
+#include "paddle.h"
 
 Ball ball;
 Texture2D ballImage;
@@ -14,6 +14,9 @@ const Vector2 ACCELERATED_BALL_SPEED = (Vector2) {350, -400};   // speed after w
 const Vector2 BALL_ACCELERATION = (Vector2) { 15, 15 };         // deceleration rate for ball
 
 const double BASE_BALL_RADIUS = 5.0;
+const double MEGA_BALL_RADIUS = 1.75 * BASE_BALL_RADIUS;
+const double SHRUNK_BALL_RADIUS = 0.75 * BASE_BALL_RADIUS;
+
 bool ballLockedToPaddle = true;                                 // makes ball stick to paddle, until player presses space
 double lastBallLockTime = 0;                                    // in seconds
 const double BALL_OSCILLATION_FREQ = 1.0;                       // oscillations per second
@@ -24,9 +27,9 @@ const double BALL_OSCILLATION_FREQ = 1.0;                       // oscillations 
 void resetBall()
 {
     lockBall();
+    ball.radius = BASE_BALL_RADIUS;
     ball.pos = (Vector2){paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width / 2, paddles[currentPaddle].rect.y - ball.radius - 1};
     ball.speed = (Vector2) {fabs(INITIAL_BALL_SPEED.x), -fabs(INITIAL_BALL_SPEED.y)};
-    ball.radius = BASE_BALL_RADIUS;
 }
 
 // Lock ball to paddle
@@ -67,12 +70,11 @@ void updateBall()
         for (int i = 0, divs = 10; i < divs; i++)
         {
             ball.pos = Vector2Add(ball.pos, Vector2Scale(displacement, 1.0 / divs));
-            if (checkBallNBrickCollisions())
+            if (checkBallNBrickCollisions() || bounceBallOnPaddle())
             {
                 collision = true;
                 break;
             }
-            bounceBallOnPaddle();
         }
 
         // set to final position (in case of inaccuracies)
@@ -80,7 +82,7 @@ void updateBall()
             ball.pos = Vector2Add(initialBallPos, displacement);
 
         bounceBallOnBoundaries();
-        bounceBallOnPaddle();
+        // bounceBallOnPaddle();
 
         manageBallAcceleration();
     }

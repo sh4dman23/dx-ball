@@ -1,13 +1,14 @@
 #include <raylib.h>
 #include <raymath.h>
 
-#include <coregame.h>
-#include <bricks.h>
-#include <maps.h>
-#include <stats.h>
-#include <perks.h>
-#include <ball.h>
-#include <explosivebricks.h>
+#include "coregame.h"
+#include "bricks.h"
+#include "maps.h"
+#include "stats.h"
+#include "perks.h"
+#include "ball.h"
+#include "explosivebricks.h"
+#include "audio.h"
 
 // values based on dimensions
 int maxBrickRows = (WINDOW_HEIGHT - PADDING_ABOVE_MAP - PADDING_BELOW_MAP) / BRICK_HEIGHT;
@@ -26,6 +27,7 @@ Brick bricks[MAX_NUMBER_OF_BRICKS];
 /* Function Definitions */
 
 // Check if this brick can be broken
+//! PARAMETER IS BRICK INDEX, NOT BRICK TYPE
 bool isBrickBreakable(int brickIndex) {
     if (brickIndex < 0 || brickIndex >= numBricks)
         return false;
@@ -40,6 +42,14 @@ bool isBrickBreakable(int brickIndex) {
 // Degrade brick, based on its type
 void degradeBrick(int brickIndex)
 {
+    // play brick hit sfx
+    if (bricks[brickIndex].type == BRICK_UNBREAKABLE)
+        playSfx(SFX_UNBREAKABLE_BRICK_COLLIDE);
+    else if (bricks[brickIndex].type == BRICK_EXPLOSIVE)
+        playSfx(SFX_BRICK_EXPLOSION);
+    else
+        playSfx(SFX_BRICK_COLLIDE);
+
     // empty, unbreakable, exploding
     if (!isBrickBreakable(brickIndex))
         return;
@@ -52,8 +62,6 @@ void degradeBrick(int brickIndex)
     // standard bricks
     else if (bricks[brickIndex].type > 0)
     {
-        increaseScore(BASE_BRICK_HIT_SCORE * (1 + (fabs(ball.speed.x) / fabs(ACCELERATED_BALL_SPEED.x) / 2)));
-
         // degrade brick
         bricks[brickIndex].type--;
 
@@ -61,7 +69,8 @@ void degradeBrick(int brickIndex)
         if (bricks[brickIndex].type == 0)
             breakableBricksLeft--;
 
-        spawnPerk(brickIndex);                  // only bricks hit directly can spawn perks
+        // for now only standard bricks give perks
+        spawnPerk(brickIndex);
     }
 
 }

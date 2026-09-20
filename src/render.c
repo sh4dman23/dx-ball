@@ -4,22 +4,22 @@
 #include <string.h>
 #include <time.h>
 
-#include <render.h>
-#include <coregame.h>
-#include <mainmenu.h>
-#include <gamestates.h>
-#include <highscores.h>
-#include <stats.h>
-#include <ball.h>
-#include <paddle.h>
-#include <endgame.h>
-#include <bricks.h>
-#include <explosivebricks.h>
-#include <maps.h>
-#include <mapeditor.h>
-#include <perks.h>
-#include <debugview.h>
-#include <laserpaddle.h>
+#include "render.h"
+#include "coregame.h"
+#include "mainmenu.h"
+#include "gamestates.h"
+#include "highscores.h"
+#include "stats.h"
+#include "ball.h"
+#include "paddle.h"
+#include "endgame.h"
+#include "bricks.h"
+#include "explosivebricks.h"
+#include "maps.h"
+#include "mapeditor.h"
+#include "perks.h"
+#include "debugview.h"
+#include "laserpaddle.h"
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;
@@ -66,7 +66,7 @@ void loadSprites()
 
     // main game ui
     lifeTexture = LoadTexture("./assets/ui/life.png");
-    ballImage = LoadTexture("./assets/ball.png");
+    ballImage = LoadTexture("./assets/balls/ball.png");
 
     // paddles
     for (int i = 0; i < NUMBER_OF_PADDLES; i++) {
@@ -243,7 +243,7 @@ void drawMainGameUI()
 // Ball
 void drawBall()
 {
-    DrawTextureEx(ballImage, (Vector2){ball.pos.x - ball.radius, ball.pos.y - ball.radius}, 0.0f, 1.0f, WHITE);
+    DrawTextureEx(ballImage, (Vector2){ball.pos.x - ball.radius, ball.pos.y - ball.radius}, 0.0f, (ball.radius / BASE_BALL_RADIUS), WHITE);
 }
 
 // Paddle
@@ -406,6 +406,9 @@ void drawMapEditor()
         }
     }
 
+    // bricks
+    drawBricks();
+
     // map selection area
     DrawRectangleRec(mapSelectionRegion, (Color) {255, 255, 255, 150});
     for (int i = 0; i < numBricks; i++) {
@@ -413,9 +416,6 @@ void drawMapEditor()
              DrawRectangleLinesEx(bricks[i].rect, 2, highlighted);
         }
     }
-
-    // bricks
-    drawBricks();
 
     // brick outlines
     for (int i = 0; i < numBricks; i++)
@@ -616,6 +616,9 @@ void drawDebugView()
 
     sprintf(textStr, "SpeedX: %.2f; SpeedY: %.2f", ball.speed.x, ball.speed.y);
     DrawText(textStr, GetScreenWidth() - 250, 10, 15, RAYWHITE);
+
+    sprintf(textStr, "Score Modifier: %.1lfx", scoreMultiplier);
+    DrawText(textStr, GetScreenWidth() - 250, 30, 20, RAYWHITE);
 
     // map area
     // DrawRectangle(PADDING_ON_MAP_SIDES, PADDING_ABOVE_MAP, GetScreenWidth() - PADDING_ON_MAP_SIDES * 2, GetScreenHeight() - PADDING_ABOVE_MAP - PADDING_BELOW_MAP, (Color){255, 0, 0, 50});

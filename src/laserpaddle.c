@@ -2,11 +2,12 @@
 #include <raymath.h>
 #include <stdio.h>
 
-#include <laserpaddle.h>
-#include <paddle.h>
-#include <perks.h>
-#include <bricks.h>
-#include <audio.h>
+#include "laserpaddle.h"
+#include "stats.h"
+#include "paddle.h"
+#include "perks.h"
+#include "bricks.h"
+#include "audio.h"
 
 Texture2D laserTexture;
 Laser lasers[MAX_LASERS_PER_SCREEN] = {};
@@ -114,17 +115,12 @@ void checkLaserCollisions() {
         }
 
         Rectangle lrec = (Rectangle) {
-            lasers[i].left.x,
-            lasers[i].left.y,
-            laserTexture.width,
-            laserTexture.height
+            lasers[i].left.x, lasers[i].left.y,
+            laserTexture.width, laserTexture.height
         };
-
         Rectangle rrec = (Rectangle) {
-            lasers[i].right.x,
-            lasers[i].right.y,
-            laserTexture.width,
-            laserTexture.height
+            lasers[i].right.x, lasers[i].right.y,
+            laserTexture.width, laserTexture.height
         };
 
         // hits brick
@@ -132,19 +128,29 @@ void checkLaserCollisions() {
             if (bricks[j].type == BRICK_EMPTY)
                 continue;
 
+            bool hitsBrick = false;
+            int type = bricks[j].type;
+
             if (lasers[i].leftOnScreen && CheckCollisionRecs(bricks[j].rect, lrec)) {
-                if (bricks[j].type != BRICK_UNBREAKABLE)
-                    playSfx(SFX_BRICK_COLLIDE);
-                degradeBrick(j);
+                if (isBrickBreakable(j)) {
+                    hitsBrick = true;
+                }
+
                 lasers[i].leftOnScreen = false;
                 lasers[i].left = (Vector2) {-1, -1};
             }
             if (lasers[i].rightOnScreen && CheckCollisionRecs(bricks[j].rect, rrec)) {
-                if (bricks[j].type != BRICK_UNBREAKABLE)
-                    playSfx(SFX_BRICK_COLLIDE);
-                degradeBrick(j);
+                if (isBrickBreakable(j)) {
+                    hitsBrick = true;
+                }
+
                 lasers[i].rightOnScreen = false;
                 lasers[i].right = (Vector2) {-1, -1};
+            }
+
+            if (hitsBrick) {
+                degradeBrick(j);
+                increaseScore(BASE_BRICK_HIT_SCORE);
             }
         }
     }

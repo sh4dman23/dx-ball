@@ -133,6 +133,7 @@ void killPaddle()
     }
     scoreMultiplier = 1.0;
 
+    //? paddle MUST be reset before ball
     resetPaddle();
     resetBall();
 
