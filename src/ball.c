@@ -72,6 +72,7 @@ void updateBall()
                 collision = true;
                 break;
             }
+            bounceBallOnPaddle();
         }
 
         // set to final position (in case of inaccuracies)
@@ -79,24 +80,7 @@ void updateBall()
             ball.pos = Vector2Add(initialBallPos, displacement);
 
         bounceBallOnBoundaries();
-
-        // bounce ball on paddle and angle ball using that
-        if (bounceBallOnPaddle())
-        {
-            // signed distance between ball center and paddle center
-            double delx = ball.pos.x - (paddles[currentPaddle].rect.x + paddles[currentPaddle].rect.width / 2);
-
-            // accelerated speed based on distance from center
-            ball.speed.x = (ball.speed.x > 0 ? 1 : -1) * (fabs(delx) / (paddles[currentPaddle].rect.width / 2)) * max(fabs(ball.speed.x), INITIAL_BALL_SPEED.x) * 2;
-
-            // if dx and vx have opposite signs, flip vx
-            if (delx > 0 != ball.speed.x > 0)
-                ball.speed.x *= -1;
-
-            // max speed from bouncing is accelerated speed
-            if (fabs(ball.speed.x) > fabs(ACCELERATED_BALL_SPEED.x))
-                ball.speed.x = (ball.speed.x > 0 ? 1 : -1) * fabs(ACCELERATED_BALL_SPEED.x);
-        }
+        bounceBallOnPaddle();
 
         manageBallAcceleration();
     }

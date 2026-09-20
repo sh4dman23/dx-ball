@@ -408,6 +408,11 @@ void drawMapEditor()
 
     // map selection area
     DrawRectangleRec(mapSelectionRegion, (Color) {255, 255, 255, 150});
+    for (int i = 0; i < numBricks; i++) {
+        if (CheckCollisionRecs(bricks[i].rect, mapSelectionRegion)) {
+             DrawRectangleLinesEx(bricks[i].rect, 2, highlighted);
+        }
+    }
 
     // bricks
     drawBricks();
