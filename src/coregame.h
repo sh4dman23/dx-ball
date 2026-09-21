@@ -4,6 +4,9 @@
 #define max(a, b) ((a) > (b) ? (a) : (b))
 #define min(a, b) ((a) < (b) ? (a) : (b))
 
+// Desktop version
+#define GLSL_VERSION 330
+
 // Game window
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720

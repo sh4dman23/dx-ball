@@ -68,7 +68,7 @@ void updateLoop()
     // main menu
     if (gameState == GS_MAIN_MENU)
     {
-        manageMainMenuScreen();
+        // manageMainMenuScreen();
     }
 
     // core game

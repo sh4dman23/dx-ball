@@ -174,6 +174,10 @@ void unloadSprites()
 // Contains all draw calls; func called inside game loop
 void drawLoop()
 {
+    // main menu
+    if (gameState == GS_MAIN_MENU) {
+        drawMainMenu();
+    }
     // core game
     if (gameState == GS_MAIN_GAME)
     {

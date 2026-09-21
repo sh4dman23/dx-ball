@@ -23,14 +23,15 @@ void manageMainMenuScreen()
 {
     if (gameState != GS_MAIN_MENU)
         return;
+}
 
-    ClearBackground(BLACK);
+void drawMainMenu() {
     drawMainMenuLogoAnimations();
-    createMainMenuButtons();
+    drawMainMenuButtons();
 }
 
 // main menu buttons for changing states
-void createMainMenuButtons()
+void drawMainMenuButtons()
 {
     const int buttonTextFontSize = 22;
     Rectangle mainMenuButtonRect = {(WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2, WINDOW_HEIGHT / 2 - MAIN_MENU_BUTTON_HEIGHT, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT};

@@ -37,22 +37,43 @@ int main(void)
     // set game to not exit by escape key
     SetExitKey(KEY_NULL);
 
+    // for crt shader
+    Shader shader = LoadShader(0, "./assets/shaders/crt.fs");
+    RenderTexture2D targetRenderTexture = LoadRenderTexture(GetScreenWidth(), GetScreenHeight());
+
     // main loop
     while (!WindowShouldClose() && !exitGame)
     {
         manageDebugView();
         manageGameStateChanges();
 
-        // updates
+        // Updates
         updateLoop();
         updateAudio();
 
-        // draw
+        // Draw
+        BeginTextureMode(targetRenderTexture);
+        {
+            ClearBackground(BLACK); // clear texture background
+            drawLoop();
+        }
+        EndTextureMode();
+
         BeginDrawing();
-        ClearBackground(BLACK);
-        drawLoop();
+        {
+            ClearBackground(BLACK); // clear screen background
+            BeginShaderMode(shader);
+
+            //? NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
+            DrawTextureRec(targetRenderTexture.texture, (Rectangle){ 0, 0, (float) targetRenderTexture.texture.width, (float) -targetRenderTexture.texture.height }, (Vector2){ 0, 0 }, WHITE);
+
+            EndShaderMode();
+        }
         EndDrawing();
     }
+
+    UnloadShader(shader);
+    UnloadRenderTexture(targetRenderTexture);
 
     unloadSprites();
     unloadAllAudio();

@@ -25,8 +25,9 @@ extern Texture2D mainMenuBall[MAIN_MENU_BALL_END];
 
 
 //* Function Prototypes
+void drawMainMenu();
 void manageMainMenuScreen();                                // Manage main menu
-void createMainMenuButtons();                               // Create buttons for main menu
+void drawMainMenuButtons();                                 // Create buttons for main menu
 void checkMainMenuButtonClick(Vector2 mousePos);            // Check button clicks in main menu
 
 #endif
