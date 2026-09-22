@@ -7,7 +7,6 @@ extern const Vector2 PERK_IMG_SIZE;
 extern const Vector2 PERK_SPEED;                // speed at which perk falls down
 extern const double DELAY_AFTER_PERK_SPAWN;     // in seconds
 extern const double TIMED_PERK_DURATION;        // base duration for perk that has timer
-extern const int BASE_PERK_ACTIVATE_SCORE;      // base score gained on perk activation
 
 extern bool canSpawnPerk;                       // flag for perk spawn
 

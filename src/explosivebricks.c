@@ -1,5 +1,6 @@
 #include <raylib.h>
 #include <raymath.h>
+#include <stdio.h>
 
 #include <bricks.h>
 #include <explosivebricks.h>
@@ -37,14 +38,16 @@ void updateExplosiveBricks() {
 // Detonate a brick
 void detonateBrick(int brickIndex) {
     //* unbreakable bricks CAN be destroyed by explosions in reference (https://dx-ball.ru)
-    if (!(isBrickBreakable(brickIndex) || bricks[brickIndex].type == BRICK_UNBREAKABLE))
+    if (!isBrickBreakable(brickIndex) && bricks[brickIndex].type != BRICK_UNBREAKABLE)
         return;
+
+    bool wasExplosive = (bricks[brickIndex].type == BRICK_EXPLOSIVE);
+    static int i = 0;
+    // printf("%d: row: %d, col: %d, type %d\n", ++i, brickIndex / maxBrickCols + 1, brickIndex % maxBrickCols + 1, bricks[brickIndex].type);
 
     // update count on remaining bricks left
     if (isBrickBreakable(brickIndex))
         breakableBricksLeft--;
-        
-    bool wasExplosive = bricks[brickIndex].type == BRICK_EXPLOSIVE;
 
     // set explosion animation
     setExplosion(brickIndex);
@@ -61,6 +64,8 @@ void detonateBrick(int brickIndex) {
                     continue;
 
                 int bi2 = (r + i) * maxBrickCols + (c + j);
+                if (r + i < 0 || r + i >= maxBrickRows || c + j < 0 || c + j >= maxBrickCols)
+                    continue;
                 if (isBrickBreakable(bi2) || bricks[bi2].type == BRICK_UNBREAKABLE)
                     detonateBrick(bi2);
             }

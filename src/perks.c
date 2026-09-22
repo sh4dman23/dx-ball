@@ -19,7 +19,6 @@ const Vector2 PERK_IMG_SIZE = {32, 30};
 const Vector2 PERK_SPEED = {0, 200};        // speed at which perk falls down
 const double DELAY_AFTER_PERK_SPAWN = 2;    // in seconds
 const double TIMED_PERK_DURATION = 10;      // base duration for perk that has timer
-const int BASE_PERK_ACTIVATE_SCORE = 50;    // base score gained on perk activation
 
 bool canSpawnPerk = true;
 

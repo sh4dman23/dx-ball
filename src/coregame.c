@@ -48,7 +48,11 @@ void initializeGame()
 void setNewGame()
 {
     numBricks = maxBrickCols * maxBrickRows;
+
     currentMap = 0;
+    #ifdef DEBUG_STARTING_MAP
+        currentMap = DEBUG_STARTING_MAP;
+    #endif
 
     initializeCurrentMap();
 

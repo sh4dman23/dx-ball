@@ -39,8 +39,12 @@ bool musicStopped = false;
 // Update all audio and music streams (called in every frame)
 void updateAudio()
 {
-    //? updates for all sfx go here
-    // UpdateAudioStream()
+    // update audio device if disconnected
+    if (!IsAudioDeviceReady()) {
+        CloseAudioDevice();
+        InitAudioDevice();
+    }
+
 
     // update current music stream
     UpdateMusicStream(currMusic);

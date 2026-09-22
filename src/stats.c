@@ -12,8 +12,6 @@ int playtime = 0;
 int lives = 0;
 const int STARTING_LIVES = 3;
 
-const int BASE_BRICK_HIT_SCORE = 50;
-
 // Player name input
 char nameInputStr[MAX_PLAYER_NAME_LENGTH + 1] = {'\0'};
 

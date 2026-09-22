@@ -8,7 +8,8 @@ extern int playtime;
 extern int lives;
 extern const int STARTING_LIVES;
 
-extern const int BASE_BRICK_HIT_SCORE;
+#define BASE_BRICK_HIT_SCORE 8
+#define BASE_PERK_ACTIVATE_SCORE 8      // base score gained on perk activation
 
 #define MAX_PLAYER_NAME_LENGTH 16               // Maximum length for player name
 extern char nameInputStr[MAX_PLAYER_NAME_LENGTH + 1];

@@ -10,7 +10,6 @@
 int currentMap = 0;
 int numberOfMaps = 0;
 
-
 /* Function Definitions */
 
 // Set all bricks in map to empty bricks
@@ -67,6 +66,9 @@ void initializeAllMaps()
     }
 
     currentMap = 0;
+    #ifdef DEBUG_STARTING_MAP
+        currentMap = DEBUG_STARTING_MAP;
+    #endif
 }
 
 // Initializes (read) current map
