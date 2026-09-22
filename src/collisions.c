@@ -67,11 +67,10 @@ bool checkBallNBrickCollisions()
             }
         }
 
-        degradeBrick(i);
-
         // score based on ball speed
         if (isBrickBreakable(i))
             increaseScore(BASE_BRICK_HIT_SCORE * (1 + (fabs(ball.speed.x) / fabs(ACCELERATED_BALL_SPEED.x) / 2)));
+        degradeBrick(i);
     }
 
     return collision;
