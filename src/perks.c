@@ -163,7 +163,9 @@ void spawnPerk(int brickIndex)
             continue;
 
         // roll for rng
-        double roll = ((double) rand() / RAND_MAX) * 100;
+        // double roll = ((double) rand() / RAND_MAX) * 100;
+        double roll = GetRandomValue(1, 100);
+
         if (roll != 0 && roll <= perks[i].spawnChance) {
             perks[i].pos = (Vector2) {
                 bricks[brickIndex].rect.x + (BRICK_WIDTH - PERK_IMG_SIZE.x) / 2,
