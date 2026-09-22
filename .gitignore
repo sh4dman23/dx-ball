@@ -1,5 +1,8 @@
 *.exe
 *.log
-.vscode
+.vscode/*
 *.rar
 backup/*
+
+!.vscode/tasks.json
+!.vscode/launch.json
