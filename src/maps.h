@@ -14,7 +14,7 @@
 extern int currentMap;
 extern int numberOfMaps;
 
-#define DEBUG_STARTING_MAP 1                //? comment this out when not being used (0-indexed btw)
+// #define DEBUG_STARTING_MAP 0                //? comment this out when not being used (0-indexed btw)
 
 
 /* Function Prototypes */

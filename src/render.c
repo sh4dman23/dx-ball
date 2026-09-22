@@ -414,8 +414,8 @@ void drawMapEditor()
             else
                 numColor = notHighlighted;
 
-            drawTextFont(mainFont, numText, bricks[i * maxBrickCols].rect.x - textSize.x - 10, bricks[i * maxBrickCols].rect.y + (BRICK_HEIGHT - 15) / 2, fontSize, 2, numColor);
-            drawTextFont(mainFont, numText, bricks[(i + 1) * maxBrickCols - 1].rect.x + BRICK_WIDTH + 10, bricks[(i + 1) * maxBrickCols - 1].rect.y + (BRICK_HEIGHT - fontSize) / 2, fontSize, 2, numColor);
+            drawTextFont(mainFont, numText, bricks[i * maxBrickCols].rect.x - textSize.x - 10, bricks[i * maxBrickCols].rect.y + (BRICK_HEIGHT - textSize.y) / 2 - 2, fontSize, 2, numColor);
+            drawTextFont(mainFont, numText, bricks[(i + 1) * maxBrickCols - 1].rect.x + BRICK_WIDTH + 10, bricks[(i + 1) * maxBrickCols - 1].rect.y + (BRICK_HEIGHT - textSize.y) / 2 - 2, fontSize, 2, numColor);
         }
     }
 
