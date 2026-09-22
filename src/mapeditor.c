@@ -2,12 +2,12 @@
 #include <raymath.h>
 #include <stdio.h>
 
-#include <mapeditor.h>
-#include <audio.h>
-#include <bricks.h>
-#include <maps.h>
-#include <mainmenu.h>
-#include <coregame.h>
+#include "mapeditor.h"
+#include "audio.h"
+#include "bricks.h"
+#include "maps.h"
+#include "mainmenu.h"
+#include "coregame.h"
 
 // Map editor buttons
 Rectangle mapEditorButtons[NUM_MAP_EDITOR_BUTTONS];
@@ -181,7 +181,7 @@ void checkMapEdit()
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
-                playSfx(SFX_ME_BRICK_CHANGE);
+                // playSfx(SFX_ME_BRICK_CHANGE);
                 changeBrickType(i, +1);
                 break;
             }
@@ -201,7 +201,7 @@ void checkMapEdit()
         {
             if (CheckCollisionPointRec(mousePos, bricks[i].rect))
             {
-                playSfx(SFX_ME_BRICK_CHANGE);
+                // playSfx(SFX_ME_BRICK_CHANGE);
                 changeBrickType(i, -1);
                 break;
             }
@@ -237,6 +237,7 @@ void checkMapEdit()
             playSfx(SFX_ME_BUTTON_CLICK);
             saveCurrentMap();
             switchToMap(currentMap - 1);
+            clearMapEditorSelection();
         }
 
         // cycle maps right
@@ -245,6 +246,7 @@ void checkMapEdit()
             playSfx(SFX_ME_BUTTON_CLICK);
             saveCurrentMap();
             switchToMap(currentMap + 1);
+            clearMapEditorSelection();
         }
 
         // add new map
@@ -252,6 +254,7 @@ void checkMapEdit()
         {
             playSfx(SFX_ME_BUTTON_CLICK);
             addNewMap();
+            clearMapEditorSelection();
         }
 
         // delete current map
@@ -259,6 +262,7 @@ void checkMapEdit()
         {
             playSfx(SFX_ME_BUTTON_CLICK);
             deleteCurrentMap();
+            clearMapEditorSelection();
         }
     }
 
@@ -268,17 +272,21 @@ void checkMapEdit()
         playSfx(SFX_ME_BUTTON_CLICK);
         saveCurrentMap();
         switchToMap(currentMap - 1);
+        clearMapEditorSelection();
     }
     else if (IsKeyPressed(KEY_RIGHT))
     {
         playSfx(SFX_ME_BUTTON_CLICK);
         saveCurrentMap();
         switchToMap(currentMap + 1);
+        clearMapEditorSelection();
     }
 }
 
 // Increase or decrease brick type in map editor
 void changeBrickType(int brickIndex, int change) {
+    if (!isSfxPlaying(SFX_ME_BRICK_CHANGE))
+        playSfx(SFX_ME_BRICK_CHANGE);
     bricks[brickIndex].type = bricks[brickIndex].type + change % (NUM_BRICK_TEXTURES + 1);
     if (bricks[brickIndex].type > MAX_BRICK_TYPE)
         bricks[brickIndex].type = MIN_BRICK_TYPE;
