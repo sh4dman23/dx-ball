@@ -70,7 +70,7 @@ void setMapEditor()
 {
     int px = 0, py = 20;
 
-    const int fontSize = 16;
+    const int fontSize = MAP_EDITOR_BUTTON_SIZE;
     const Vector2 mapNameBoxDimensions = {150, fontSize * 2};
     const Vector2 otherBoxDimensions = {fontSize * 2, fontSize * 2};
     const int spacing = 5;

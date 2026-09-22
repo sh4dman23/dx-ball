@@ -245,7 +245,7 @@ void activatePerk(int perkIndex)
     }
     else if (strcmp(name, "doublepoints") == 0) {
         if (perks[perkIndex].duration <= 0)
-            scoreMultiplier += 2;
+            scoreMultiplier *= 2;
     }
     else if (strcmp(name, "expandpaddle") == 0) {
         switchPaddle(currentPaddle == SHRUNK_PADDLE ? BASE_PADDLE : EXPANDED_PADDLE);
@@ -297,7 +297,7 @@ void deactivatePerk(int perkIndex)
 
     char *name = perks[perkIndex].filename;
     if (strcmp(name, "doublepoints") == 0) {
-        scoreMultiplier -= 2;
+        scoreMultiplier /= 2;
     }
     else if (strcmp(name, "expandpaddle") == 0 || strcmp(name, "shrinkpaddle") == 0) {
         switchPaddle(BASE_PADDLE);

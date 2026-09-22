@@ -1,5 +1,5 @@
-#include <raylib.h>
-#include <raymath.h>
+#include "raylib.h"
+#include "raymath.h"
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
@@ -20,6 +20,7 @@
 #include "perks.h"
 #include "debugview.h"
 #include "laserpaddle.h"
+#include "fonts.h"
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;
@@ -217,17 +218,20 @@ void drawMainGame()
 // Draw ui for main game
 void drawMainGameUI()
 {
+    const int fontSize = 20;
+    const int scoreFontSize = 24 * 26 / 22;
+
     // time (left)
-    DrawText("Time", PADDING_SIDES_UI, PADDING_ABOVE_UI, 16, RAYWHITE);
+    drawTextFont(mainFont, "Time", PADDING_SIDES_UI, PADDING_ABOVE_UI, fontSize, 3, RAYWHITE);
     char timeText[20];
     sprintf(timeText, "%02d : %02d", playtime / 60, playtime % 60);
-    DrawText(timeText, PADDING_SIDES_UI, PADDING_ABOVE_UI + 16 * 1.4, 16, RAYWHITE);
+    drawTextFont(mainFont, timeText, PADDING_SIDES_UI, PADDING_ABOVE_UI + fontSize * 1.2, fontSize, 3, RAYWHITE);
 
     // score (middle)
-    DrawText("Score", (GetScreenWidth() - MeasureText("Score", 18)) / 2, PADDING_ABOVE_UI, 18, RAYWHITE);
+    drawTextFont(mainFont, "Score", (GetScreenWidth() - MeasureTextEx(mainFont, "Score", scoreFontSize, 3).x) / 2, PADDING_ABOVE_UI, scoreFontSize, 3, RAYWHITE);
     char scoreText[20];
     sprintf(scoreText, "%d", playerScore);
-    DrawText(scoreText, (GetScreenWidth() - MeasureText(scoreText, 18)) / 2, PADDING_ABOVE_UI + 18 * 1.4, 18, RAYWHITE);
+    drawTextFont(mainFont, scoreText, (GetScreenWidth() - MeasureTextEx(mainFont, scoreText, scoreFontSize, 3).x) / 2, PADDING_ABOVE_UI + (scoreFontSize) * 1.1, scoreFontSize, 3, RAYWHITE);
 
     // lives (right)
     for (int i = 0; i < lives; i++)
@@ -329,14 +333,14 @@ void drawLasers() {
 // Draw map editor on screen
 void drawMapEditor()
 {
-    const int fontSize = 16;
+    const int fontSize = 21;
 
     // box for showing # of current selected map
     DrawRectangleLinesEx(mapEditorButtons[0], 1, WHITE);
 
     char mapText[20];
     sprintf(mapText, "Map %d", currentMap + 1);
-    DrawText(mapText, mapEditorButtons[0].x + 10, mapEditorButtons[0].y + (mapEditorButtons[0].height - fontSize) / 2, fontSize, WHITE);
+    drawTextFont(mainFont, mapText, mapEditorButtons[0].x + 10, mapEditorButtons[0].y + (mapEditorButtons[0].height - fontSize) / 2, fontSize, 2, WHITE);
 
     // buttons to change current selected map
     for (int i = 1; i <= 4; i++)
@@ -358,10 +362,15 @@ void drawMapEditor()
         DrawTexturePro(
             mapEditorButtonTextures[i],
             (Rectangle){0, 0, mapEditorButtonTextures[i].width, mapEditorButtonTextures[i].height},
-            (Rectangle){mapEditorButtons[i].x + (mapEditorButtons[i].width - fontSize) / 2, mapEditorButtons[i].y + fontSize / 2, fontSize, fontSize},
+            (Rectangle){
+                mapEditorButtons[i].x + (mapEditorButtons[i].width - MAP_EDITOR_BUTTON_SIZE) / 2,
+                mapEditorButtons[i].y + MAP_EDITOR_BUTTON_SIZE / 2,
+                MAP_EDITOR_BUTTON_SIZE, MAP_EDITOR_BUTTON_SIZE
+            },
             (Vector2){0, 0},
             0.0f,
-            buttonColor);
+            buttonColor
+        );
     }
 
     // color based on whether mouse points to corresponding brick
@@ -373,7 +382,7 @@ void drawMapEditor()
     {
         char numText[20];
         sprintf(numText, "%d", i + 1);
-        Vector2 textSize = MeasureTextEx(GetFontDefault(), numText, 15, 0);
+        Vector2 textSize = MeasureTextEx(mainFont, numText, fontSize, 0);
 
         // check if mouse is on ANY brick at all
         bool mouseOnBricks = CheckCollisionPointRec(
@@ -394,8 +403,8 @@ void drawMapEditor()
             else
                 numColor = notHighlighted;
 
-            DrawText(numText, bricks[i].rect.x + (BRICK_WIDTH - textSize.x) / 2, bricks[i].rect.y - textSize.y - 5, 15, numColor);
-            DrawText(numText, bricks[i].rect.x + (BRICK_WIDTH - textSize.x) / 2, bricks[maxBrickRows * maxBrickCols - 1].rect.y + BRICK_HEIGHT + 5, 15, numColor);
+            drawTextFont(mainFont, numText, bricks[i].rect.x + (BRICK_WIDTH - textSize.x) / 2, bricks[i].rect.y - textSize.y - 5, fontSize, 2, numColor);
+            drawTextFont(mainFont, numText, bricks[i].rect.x + (BRICK_WIDTH - textSize.x) / 2, bricks[maxBrickRows * maxBrickCols - 1].rect.y + BRICK_HEIGHT + 5, fontSize, 2, numColor);
         }
 
         if (i < maxBrickRows)
@@ -405,8 +414,8 @@ void drawMapEditor()
             else
                 numColor = notHighlighted;
 
-            DrawText(numText, bricks[i * maxBrickCols].rect.x - textSize.x - 10, bricks[i * maxBrickCols].rect.y + (BRICK_HEIGHT - 15) / 2, 15, numColor);
-            DrawText(numText, bricks[(i + 1) * maxBrickCols - 1].rect.x + BRICK_WIDTH + 10, bricks[(i + 1) * maxBrickCols - 1].rect.y + (BRICK_HEIGHT - 15) / 2, 15, numColor);
+            drawTextFont(mainFont, numText, bricks[i * maxBrickCols].rect.x - textSize.x - 10, bricks[i * maxBrickCols].rect.y + (BRICK_HEIGHT - 15) / 2, fontSize, 2, numColor);
+            drawTextFont(mainFont, numText, bricks[(i + 1) * maxBrickCols - 1].rect.x + BRICK_WIDTH + 10, bricks[(i + 1) * maxBrickCols - 1].rect.y + (BRICK_HEIGHT - fontSize) / 2, fontSize, 2, numColor);
         }
     }
 
@@ -447,7 +456,7 @@ void drawMapEditor()
 void drawHighScoresScreen()
 {
     // size and spacings for table
-    const int fontSize = 16;
+    const int fontSize = 24;
     const double rowHeight = 18 * 2;
 
     const int NUM_HEADERS = 4;
@@ -464,7 +473,8 @@ void drawHighScoresScreen()
         0.10 * tableWidth,
         0.45 * tableWidth,
         0.25 * tableWidth,
-        0.20 * tableWidth};
+        0.20 * tableWidth
+    };
 
     // variables to keep track of position to draw stuff
     double px = (GetScreenWidth() - highScoresTitleImage.width) / 2;
@@ -478,10 +488,12 @@ void drawHighScoresScreen()
     px = (GetScreenWidth() - tableWidth) / 2;
     for (int i = 0; i < NUM_HEADERS; i++)
     {
+        Vector2 textSize = MeasureTextEx(mainFont, colHeaders[i], fontSize + 2, 2);
+
         // cell outline
         DrawRectangleLines(px, py, colWidth[i], rowHeight, RAYWHITE);
 
-        DrawText(colHeaders[i], px + (colWidth[i] - MeasureText(colHeaders[i], fontSize + 2)) / 2, py + (rowHeight - fontSize - 2) / 2, fontSize + 2, RAYWHITE);
+        drawTextFont(mainFont, colHeaders[i], px + (colWidth[i] - textSize.x) / 2, py + (rowHeight - textSize.y) / 2, fontSize + 2, 2, RAYWHITE);
 
         px += colWidth[i];
     }
@@ -522,14 +534,19 @@ void drawHighScoresScreen()
                 sprintf(cellText, "-");
             }
 
-            DrawText(
+            Vector2 textSize = MeasureTextEx(mainFont, cellText, fontSize + 2, 2);
+            drawTextFont(
+                mainFont,
                 cellText,
-                px + (colWidth[j] - MeasureText(cellText, fontSize + 2)) / 2,
-                py + (rowHeight - fontSize - 2) / 2,
+                px + (colWidth[j] - textSize.x) / 2,
+                py + (rowHeight - textSize.y) / 2,
                 fontSize + 2,
-                i == 0 ? (Color){211, 175, 55, 255} : i == 1 ? (Color){187, 194, 204, 255}
-                                                  : i == 2   ? (Color){228, 149, 60, 255}
-                                                             : RAYWHITE);
+                2,
+                i == 0 ? (Color){211, 175, 55, 255}     :
+                i == 1 ? (Color){187, 194, 204, 255}    :
+                i == 2   ? (Color){228, 149, 60, 255}   :
+                RAYWHITE
+            );
 
             px += colWidth[j];
         }
@@ -542,7 +559,13 @@ void drawHighScoresScreen()
 // Draw victory/defeat screen
 void drawGameEnd()
 {
-    const int fontSize = 18;
+    const int fontSize = 24;
+    // static int f2 = 18; //! dbg
+    // if (IsKeyPressed(KEY_DOWN))
+    //     printf("%d\n", --f2);
+    // else if (IsKeyPressed(KEY_UP))
+    //     printf("%d\n", ++f2);
+    // fontSize = f2;
 
     double px = 0, py = PADDING_ABOVE_MAP;
     Texture2D statusImage;
@@ -560,7 +583,7 @@ void drawGameEnd()
     // score
     char scoreText[50];
     sprintf(scoreText, "Score: %d", playerScore);
-    DrawText(scoreText, (GetScreenWidth() - MeasureText(scoreText, fontSize)) / 2, py, fontSize, RAYWHITE);
+    drawTextFont(subFont, scoreText, (GetScreenWidth() - MeasureTextEx(subFont, scoreText, fontSize, 2).x) / 2, py, fontSize, 2, RAYWHITE);
     py += fontSize * 1.5;
 
     // time played
@@ -576,18 +599,18 @@ void drawGameEnd()
     sprintf(secText, "%d seconds", playtime % 60);
     strcat(timeText, secText);
 
-    DrawText(timeText, (GetScreenWidth() - MeasureText(timeText, fontSize)) / 2, py, fontSize, WHITE);
+    drawTextFont(subFont, timeText, (GetScreenWidth() - MeasureTextEx(subFont, timeText, fontSize, 2).x) / 2, py, fontSize, 2, WHITE);
     py += fontSize * 2;
 
     // show name prompt
     char *namePromptText = "Enter your name to save score: ";
-    DrawText(namePromptText, (GetScreenWidth() - MeasureText(namePromptText, fontSize)) / 2, py, fontSize, WHITE);
+    drawTextFont(subFont, namePromptText, (GetScreenWidth() - MeasureTextEx(subFont, namePromptText, fontSize, 2).x) / 2, py, fontSize, 2, WHITE);
     py += fontSize * 1.4;
 
     // show currently entered name
     char nameDisplayStr[MAX_PLAYER_NAME_LENGTH + 2];
     sprintf(nameDisplayStr, "%s%c", nameInputStr, time(NULL) % 2 ? '_' : ' ');
-    DrawText(nameDisplayStr, (GetScreenWidth() - MeasureText(nameDisplayStr, fontSize)) / 2, py, fontSize, WHITE);
+    drawTextFont(subFont, nameDisplayStr, (GetScreenWidth() - MeasureTextEx(subFont, nameDisplayStr, fontSize, 2).x) / 2, py, fontSize, 2, WHITE);
     py += fontSize * 1.4;
 }
 

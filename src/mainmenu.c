@@ -1,9 +1,11 @@
-#include <raylib.h>
-#include <raymath.h>
-#include <mainmenu.h>
-#include <gamestates.h>
-#include <render.h>
-#include <coregame.h>
+#include "raylib.h"
+#include "raymath.h"
+
+#include "mainmenu.h"
+#include "gamestates.h"
+#include "render.h"
+#include "coregame.h"
+#include "fonts.h"
 
 bool exitGame = false;
 bool justMouseClicked = false;
@@ -33,7 +35,6 @@ void drawMainMenu() {
 // main menu buttons for changing states
 void drawMainMenuButtons()
 {
-    const int buttonTextFontSize = 22;
     Rectangle mainMenuButtonRect = {(WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2, WINDOW_HEIGHT / 2 - MAIN_MENU_BUTTON_HEIGHT, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT};
     for (int i = 0; i < 4; i++)
     {
@@ -55,8 +56,13 @@ void drawMainMenuButtons()
         default:
             break;
         }
-        int textWidth = MeasureText(menuButtonText, buttonTextFontSize);
-        DrawText(menuButtonText, mainMenuButtonRect.x + (mainMenuButtonRect.width - textWidth) / 2, mainMenuButtonRect.y + (mainMenuButtonRect.height - buttonTextFontSize) / 2, buttonTextFontSize, WHITE);
+        int textWidth = MeasureTextEx(mainFont, menuButtonText, MAIN_MENU_BUTTON_TEXT_FONTSIZE, 2).x;
+
+        double px = mainMenuButtonRect.x + (mainMenuButtonRect.width - textWidth) / 2;
+        double py = mainMenuButtonRect.y + (mainMenuButtonRect.height - MAIN_MENU_BUTTON_TEXT_FONTSIZE) / 2;
+
+        drawTextFont(mainFont, menuButtonText, px, py, MAIN_MENU_BUTTON_TEXT_FONTSIZE, 2, WHITE);
+
         mainMenuButtonRect.y += (10 + mainMenuButtonRect.height);
     }
 }

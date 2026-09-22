@@ -1,12 +1,17 @@
 #ifndef MAINMENU_H
 #define MAINMENU_H
 
+// Animated ball and logo
 #define MAIN_MENU_LOGO_START 1
 #define MAIN_MENU_LOGO_END 31
 #define MAIN_MENU_BALL_START 1
 #define MAIN_MENU_BALL_END 14
+
+// Buttons
 #define MAIN_MENU_BUTTON_WIDTH 200
-#define MAIN_MENU_BUTTON_HEIGHT 40
+#define MAIN_MENU_BUTTON_HEIGHT 42
+#define MAIN_MENU_BUTTON_TEXT_FONTSIZE 38
+
 #define MAIN_MENU_TEXTURES_PATH "./assets/main_menu/"
 
 extern bool exitGame;               // Flag to exit game

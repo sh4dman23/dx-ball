@@ -12,6 +12,7 @@
 #include "gamestates.h"
 #include "mainmenu.h"
 #include "render.h"
+#include "fonts.h"
 
 int main(void)
 {
@@ -30,6 +31,8 @@ int main(void)
     // load sounds and sprites
     loadAllAudio();
     loadSprites();
+
+    loadAllFonts();
 
     // initialize game
     initializeGame();
@@ -63,9 +66,8 @@ int main(void)
         {
             ClearBackground(BLACK); // clear screen background
             BeginShaderMode(shader);
-
-            //? NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
             DrawTextureRec(targetRenderTexture.texture, (Rectangle){ 0, 0, (float) targetRenderTexture.texture.width, (float) -targetRenderTexture.texture.height }, (Vector2){ 0, 0 }, WHITE);
+
 
             EndShaderMode();
         }
@@ -75,6 +77,7 @@ int main(void)
     UnloadShader(shader);
     UnloadRenderTexture(targetRenderTexture);
 
+    unloadAllFonts();
     unloadSprites();
     unloadAllAudio();
     CloseAudioDevice();

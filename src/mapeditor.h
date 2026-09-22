@@ -3,6 +3,7 @@
 
 #include <bricks.h>
 
+#define MAP_EDITOR_BUTTON_SIZE 16
 #define NUM_MAP_EDITOR_BUTTONS 5
 extern Rectangle mapEditorButtons[NUM_MAP_EDITOR_BUTTONS];          // button positions
 extern Texture2D mapEditorButtonTextures[NUM_MAP_EDITOR_BUTTONS];   // button images

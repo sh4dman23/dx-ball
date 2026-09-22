@@ -26,7 +26,7 @@ void main()
     // CRT curve (slight barrel distortion)
     vec2 cc = uv - 0.5;
     float dist = dot(cc, cc) * 0.01;
-    uv = uv + cc * (1.0 + dist) * dist;
+    // uv = uv + cc * (1.0 + dist) * dist;
 
     // Vignette effect
     float vignette = smoothstep(0.7, 0.4, length(cc) / 2);

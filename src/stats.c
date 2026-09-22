@@ -1,9 +1,9 @@
-#include <raylib.h>
-#include <raymath.h>
-#include <stats.h>
-#include <gamestates.h>
-#include <ball.h>
-#include <paddle.h>
+#include "raylib.h"
+#include "raymath.h"
+#include "stats.h"
+#include "gamestates.h"
+#include "ball.h"
+#include "paddle.h"
 
 // Game statistics
 int playerScore = 0;
