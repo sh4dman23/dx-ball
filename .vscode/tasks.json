@@ -54,7 +54,7 @@
         "-s",
         "-mwindows",
         "-o",
-        "${workspaceFolder}/${fileBasenameNoExtension}.exe"
+        "${workspaceFolder}/Release/dxball.exe"
       ],
       "options": {
         "cwd": "${workspaceFolder}",
