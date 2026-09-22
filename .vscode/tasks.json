@@ -32,6 +32,42 @@
         "kind": "build",
         "isDefault": true
       }
+    },
+
+    {
+      "type": "shell",
+      "label": "Build Release",
+      "command": "gcc",
+      "args": [
+        "-g",
+        "${workspaceFolder}/main.c",
+        "${workspaceFolder}/src/*.c",
+        "-I${workspaceFolder}/raylib/include",
+        "-L${workspaceFolder}/raylib/lib",
+        "-I./src",
+        "-lraylib",
+        "-lopengl32",
+        "-lgdi32",
+        "-lwinmm",
+        "-Wl,--defsym,stat64i32=_stat64",
+        "-O3",
+        "-s",
+        "-mwindows",
+        "-o",
+        "${workspaceFolder}/${fileBasenameNoExtension}.exe"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}",
+        "shell": {
+          "executable": "cmd.exe",
+          "args": ["/d", "/c"]
+        }
+      },
+      "problemMatcher": ["$gcc"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
     }
   ]
 }

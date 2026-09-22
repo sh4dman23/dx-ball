@@ -1,5 +1,5 @@
 # DX-BALL
-![Main Menu](./preview-img/main-menu.png)
+![Main Menu](./preview-img/main-menu.gif)
 
 This project is a recreation of the iconic **DX-BALL** game, originally released in 1996. It was made using [raylib](https://www.raylib.com/) library in C.
 
@@ -11,18 +11,20 @@ This project is a recreation of the iconic **DX-BALL** game, originally released
 
 ## Features
 ### Basic Gameplay
-<!-- add basic gameplay gif here (no perks) -->
+![Gameplay](./preview-img/gameplay.gif)
+
 In DX-BALL, you control the paddle at the bottom of the screen and use it to keep the moving ball from falling off the bottom, while trying to get as much score as possible by breaking the bricks. There are several [perks](#perks) that make the game easier or harder, depending on their effects. Your goal is to get as much points as possible while completing as many levels as you can. There are a total of **(TBD)** levels in the game as is, but it is possible to add upto a total of 1000 maps in the game, using the [map maker](#map-maker).
 
 The ball angle is controlled by where it bounces off of the paddle, depending on the distance of the ball from the center of the paddle. The scoring depends largely on the speed of the ball when it hits a brick.
 
  The top 10 players with the highest scores can be found in the highscores screen.
 
+ **Paddle Controls:** Use arrow keys or mouse to move the paddle.
+
 ### Bricks
 There are 5 types of bricks in the game: 3 standard bricks (<img src="./assets/bricks/1.png" width="30" height="10" alt="Standard Brick 1">, <img src="./assets/bricks/2.png" width="30" height="10" alt="Standard Brick 2">, <img src="./assets/bricks/3.png" width="30" height="10" alt="Standard Brick 3">), indestructive bricks (<img src="./assets/bricks/-1.png" width="30" height="10" alt="Indestructive Brick">) and explosive bricks (<img src="./preview-img/explosive-brick.gif" width="30" height="10" alt="Explosive Brick">).
 
 ### Perks
-<!-- add gameplay gif with perks -->
 <!-- NOTE: edit number of perks when new ones added -->
 
 At present, there are 10 different perks in the game with varying effects, listed below in no particular order:
@@ -42,6 +44,7 @@ Perks like <img src="./assets/perks/shrinkpaddle.png" width="16" height="15" alt
 ### Map Maker
 
 ![Map Editor](./preview-img/map-editor.png)
+
 There is an inbuilt map maker/editor in the game where the player can edit any map in the game and create upto 1000 maps, which will load in order when playing the game.
 
 **Map Maker Controls:** For changing single bricks, use LMB and RMB to cycle through the brick types and MMB to reset a single brick. For selecting multiple bricks, hold CTRL and drag mouse cursor while holding LMB to select a region or press LMB while holding CTRL to select bricks one by one. Selected bricks can be modified by scrolling up/down or alternatively, using the up/down arrow keys.
@@ -53,7 +56,7 @@ The project contains all library files required to run the game. Simply clone th
 <!-- add release -->
 
 ## Credits and Acknowledgement
-<!-- add credits for dev, art, music -->
+
 This project was made by a team of two:
 
 - Shadman Shahab ([Github](https://github.com/sh4dman23/) | [LinkedIn](https://www.linkedin.com/in/shadman-shahab/))
@@ -70,3 +73,4 @@ The art assets used in this game are credited to the following sources:
 The music used in this game are part of the original sound track of DX-BALL.
 
 ## License
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.

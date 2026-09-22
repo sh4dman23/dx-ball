@@ -49,7 +49,6 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk){
         "expandpaddle",
         4,
-        // 100,
         false,
     },
 
@@ -57,7 +56,6 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk){
         "shrinkpaddle",
         4,
-        // 100,
         false,
     },
 
@@ -79,7 +77,6 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk) {
         "laserpaddle",
         4,
-        // 100,
         false,
     },
 
@@ -87,7 +84,6 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk) {
         "shrinkball",
         8,
-        // 100,
         false,
     },
 
@@ -95,7 +91,6 @@ Perk perks[NUMBER_OF_PERKS] = {
     (Perk) {
         "megaball",
         4,
-        // 100,
         false,
     }
 };
