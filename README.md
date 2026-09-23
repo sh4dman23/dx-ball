@@ -13,7 +13,7 @@ This project is a recreation of the iconic **DX-BALL** game, originally released
 ### Basic Gameplay
 ![Gameplay](./preview-img/gameplay.gif)
 
-In DX-BALL, you control the paddle at the bottom of the screen and use it to keep the moving ball from falling off the bottom, while trying to get as much score as possible by breaking the bricks. There are several [perks](#perks) that make the game easier or harder, depending on their effects. Your goal is to get as much points as possible while completing as many levels as you can. There are a total of **(TBD)** levels in the game as is, but it is possible to add upto a total of 1000 maps in the game, using the [map maker](#map-maker).
+In DX-BALL, you control the paddle at the bottom of the screen and use it to keep the moving ball from falling off the bottom, while trying to get as much score as possible by breaking the bricks. There are several [perks](#perks) that make the game easier or harder, depending on their effects. Your goal is to get as much points as possible while completing as many levels as you can. There are **5** basic levels in the game as a start, but it is possible to add upto a total of 1000 maps in the game, using the [map maker](#map-maker).
 
 The ball angle is controlled by where it bounces off of the paddle, depending on the distance of the ball from the center of the paddle. The scoring depends largely on the speed of the ball when it hits a brick.
 
@@ -43,7 +43,7 @@ Perks like <img src="./assets/perks/shrinkpaddle.png" width="16" height="15" alt
 
 ### Map Maker
 
-![Map Editor](./preview-img/map-editor.png)
+<img src="./preview-img/map-editor.png" alt="Map Editor" width="800" height="448">
 
 There is an inbuilt map maker/editor in the game where the player can edit any map in the game and create upto 1000 maps, which will load in order when playing the game.
 
