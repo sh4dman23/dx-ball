@@ -6,7 +6,7 @@ This project is a recreation of the iconic **DX-BALL** game, originally released
 ## Table of Contents
 - [Features](#features)
 - [Installation and Usage](#installation-and-usage)
-- [Credits](#credits)
+- [Credits and Acknowledgement](#credits-and-acknowledgement)
 - [License](#license)
 
 ## Features
