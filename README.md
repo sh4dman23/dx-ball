@@ -70,7 +70,7 @@ The art assets used in this game are credited to the following sources:
 - [The Spriters Resource](https://www.spriters-resource.com/pc_computer/dxball)
 - [thoth-tech/DXBallGame](https://github.com/thoth-tech/DXBallGame/tree/main/images)
 
-The music used in this game are part of the original sound track of DX-BALL.
+The sound effects used in this game were obtained from [https://downloads.khinsider.com/](https://downloads.khinsider.com/game-soundtracks/album/dxball-windows-gamerip-1996). The music is part of the original sound track of DX-BALL.
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
