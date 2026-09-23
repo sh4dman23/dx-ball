@@ -7,7 +7,7 @@
 #include "gamestates.h"
 
 //* Sfx
-const float sfxVol = 0.7f;
+const float sfxVol = 1.0f;
 
 //? All sfx files must be of type .wav
 // file name of audio files in filepath
@@ -31,7 +31,7 @@ Sound sounds[NUMBER_OF_SFX];
 int currMusicIndex = 0;
 Music currMusic;
 
-const float musicVol = 1.0f;
+const float musicVol = 0.5f;
 
 bool musicAudible = true;           // whether music should be audible
 

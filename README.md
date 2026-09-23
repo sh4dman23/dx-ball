@@ -70,7 +70,17 @@ The art assets used in this game are credited to the following sources:
 - [The Spriters Resource](https://www.spriters-resource.com/pc_computer/dxball)
 - [thoth-tech/DXBallGame](https://github.com/thoth-tech/DXBallGame/tree/main/images)
 
-The sound effects used in this game were obtained from [https://downloads.khinsider.com/](https://downloads.khinsider.com/game-soundtracks/album/dxball-windows-gamerip-1996). The music is part of the original sound track of DX-BALL.
+The sound effects used in this game were obtained from [downloads.khinsider.com](https://downloads.khinsider.com/game-soundtracks/album/dxball-windows-gamerip-1996).
+
+The music is part of the sound track of DX-BALL, obtained from [vgmpf.com](https://www.vgmpf.com/Wiki/index.php/DX-Ball_(W32)) and are credited to:
+
+1. Ethno Papa (composed by Roland Corporation)
+2. Ackerlight (composed by Frédéric Hahn)
+3. Karn Evil 9: 1st Impression (Keith Emerson, Greg Lake)
+4. Freebee (Jeff R. Bosset)
+5. Overture from The Marriage of Figaro	(Wolfgang Amadeus Mozart)
+
+<!-- REMEMBER TO UPDATE AUDIO IN RELEASE ZIP -->
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
