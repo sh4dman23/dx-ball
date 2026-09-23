@@ -76,11 +76,9 @@ The music is part of the sound track of DX-BALL, obtained from [vgmpf.com](https
 
 1. Ethno Papa (composed by Roland Corporation)
 2. Ackerlight (composed by Frédéric Hahn)
-3. Karn Evil 9: 1st Impression (Keith Emerson, Greg Lake)
-4. Freebee (Jeff R. Bosset)
-5. Overture from The Marriage of Figaro	(Wolfgang Amadeus Mozart)
-
-<!-- REMEMBER TO UPDATE AUDIO IN RELEASE ZIP -->
+3. Karn Evil 9: 1st Impression (composed by Keith Emerson, Greg Lake)
+4. Freebee (composed by Jeff R. Bosset)
+5. Overture from The Marriage of Figaro	(composed by Wolfgang Amadeus Mozart)
 
 ## License
 This project is licensed under the MIT License. See [LICENSE](LICENSE) for more information.
