@@ -45,5 +45,7 @@ void checkMusicChange();                // Check user input for changing music
 
 void playSfx(SfxID id);                 // Play sound effect
 bool isSfxPlaying(SfxID id);            // Check if sound effect is playing
+void toggleMusic();                     // Toggle whether music should be on or off
+                                        // (only turns sound off, music still plays)
 
 #endif

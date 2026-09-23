@@ -3,10 +3,11 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <audio.h>
+#include "audio.h"
+#include "gamestates.h"
 
 //* Sfx
-const float sfxVol = 0.7f;
+const float sfxVol = 1.0f;
 
 //? All sfx files must be of type .wav
 // file name of audio files in filepath
@@ -30,7 +31,9 @@ Sound sounds[NUMBER_OF_SFX];
 int currMusicIndex = 0;
 Music currMusic;
 
-const float musicVol = 1.0f;
+const float musicVol = 0.5f;
+
+bool musicAudible = true;           // whether music should be audible
 
 // flag for checking if music has just been stopped,
 // and next music has NOT yet loaded
@@ -95,8 +98,7 @@ void switchMusic(int musicIndex)
     // start playing
     PlayMusicStream(currMusic);
 
-    //! unimplemented: game audio
-    SetMusicVolume(currMusic, musicVol);
+    SetMusicVolume(currMusic, musicAudible ? musicVol : 0.0);
 
     // reset music stopped flag
     musicStopped = false;
@@ -112,6 +114,16 @@ void checkMusicChange()
         else if (IsKeyPressed(KEY_SEMICOLON))
             switchMusic(currMusicIndex - 1);
     }
+
+    if (gameState == GS_MAIN_MENU && IsKeyPressed(KEY_M))
+        toggleMusic();
+}
+
+// Toggle whether music should be on or off
+// (only turns sound off, music still plays)
+void toggleMusic() {
+    musicAudible = !musicAudible;
+    SetMusicVolume(currMusic, musicAudible ? musicVol : 0.0);
 }
 
 // Play sfx
