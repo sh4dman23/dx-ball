@@ -60,6 +60,8 @@ void loadSprites()
     mapEditorButtonTextures[2] = LoadTexture("./assets/ui/rarrow.png");
     mapEditorButtonTextures[3] = LoadTexture("./assets/ui/plus.png");
     mapEditorButtonTextures[4] = LoadTexture("./assets/ui/delete.png");
+    mapEditorButtonTextures[5] = LoadTexture("./assets/ui/uarrow.png");
+    mapEditorButtonTextures[6] = LoadTexture("./assets/ui/darrow.png");
 
     // victory or defeat title
     victoryImage = LoadTexture("./assets/ui/victory.png");
@@ -337,18 +339,25 @@ void drawMapEditor()
 
     // box for showing # of current selected map
     DrawRectangleLinesEx(mapEditorButtons[0], 1, WHITE);
-
     char mapText[20];
-    sprintf(mapText, "Map %d", currentMap + 1);
+    sprintf(mapText, "Map %d / %d", currentMap + 1, numberOfMaps);
     drawTextFont(mainFont, mapText, mapEditorButtons[0].x + 10, mapEditorButtons[0].y + (mapEditorButtons[0].height - fontSize) / 2, fontSize, 2, WHITE);
 
     // buttons to change current selected map
-    for (int i = 1; i <= 4; i++)
+    for (int i = 1; i <= NUM_MAP_EDITOR_BUTTONS; i++)
     {
         Color buttonColor = GRAY;
 
         // grey out map addition and deletion buttons
         if ((i == 4 && numberOfMaps <= 1) || (i == 3 && numberOfMaps >= MAX_NUMBER_OF_MAPS))
+            buttonColor = GRAY;
+
+        // grey out map switching buttons if there arent multiple maps
+        else if ((i == 1 || i == 2) && numberOfMaps <= 1)
+            buttonColor = GRAY;
+
+        // grey out map reordering buttons if at the ends
+        else if ((i == 5 && currentMap == numberOfMaps - 1) || (i == 6 && currentMap == 0))
             buttonColor = GRAY;
 
         // highlight buttons on hover

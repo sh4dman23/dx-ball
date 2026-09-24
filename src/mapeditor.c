@@ -75,16 +75,31 @@ void setMapEditor()
     const Vector2 otherBoxDimensions = {fontSize * 2, fontSize * 2};
     const int spacing = 5;
 
-    px = (GetScreenWidth() - mapNameBoxDimensions.x - otherBoxDimensions.x * 3 - spacing * 3) / 2;
+    px = (GetScreenWidth() - mapNameBoxDimensions.x - otherBoxDimensions.x * 5 - spacing * 5) / 2;
+    int orPx = px;
+    px += 2 * (otherBoxDimensions.x + spacing);
 
     // map name box
     mapEditorButtons[0] = (Rectangle){px, py, mapNameBoxDimensions.x, mapNameBoxDimensions.y};
     px += mapNameBoxDimensions.x + spacing;
 
-    // other 4
+    // main 4
     for (int i = 0; i < 4; i++)
     {
-        mapEditorButtons[i + 1] = (Rectangle){px + i * otherBoxDimensions.x + i * spacing, py, otherBoxDimensions.x, otherBoxDimensions.y};
+        mapEditorButtons[i + 1] = (Rectangle){
+            px + i * otherBoxDimensions.x + i * spacing, py,
+            otherBoxDimensions.x, otherBoxDimensions.y
+        };
+    }
+
+    px = orPx;
+
+    // switch order buttons
+    for (int i = 0; i < 2; i++) {
+        mapEditorButtons[i + 5] = (Rectangle){
+            px + i * otherBoxDimensions.x + i * spacing, py,
+            otherBoxDimensions.x, otherBoxDimensions.y
+        };
     }
 }
 
@@ -229,42 +244,7 @@ void checkMapEdit()
     }
 
     //* interaction with map editor buttons
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-    {
-        // cycle maps left
-        if (CheckCollisionPointRec(mousePos, mapEditorButtons[1]))
-        {
-            playSfx(SFX_ME_BUTTON_CLICK);
-            saveCurrentMap();
-            switchToMap(currentMap - 1);
-            clearMapEditorSelection();
-        }
-
-        // cycle maps right
-        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[2]))
-        {
-            playSfx(SFX_ME_BUTTON_CLICK);
-            saveCurrentMap();
-            switchToMap(currentMap + 1);
-            clearMapEditorSelection();
-        }
-
-        // add new map
-        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[3]))
-        {
-            playSfx(SFX_ME_BUTTON_CLICK);
-            addNewMap();
-            clearMapEditorSelection();
-        }
-
-        // delete current map
-        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[4]))
-        {
-            playSfx(SFX_ME_BUTTON_CLICK);
-            deleteCurrentMap();
-            clearMapEditorSelection();
-        }
-    }
+    manageMapEditorButtonInteractions();
 
     // arrow keys to change map
     if (IsKeyPressed(KEY_LEFT))
@@ -279,6 +259,58 @@ void checkMapEdit()
         playSfx(SFX_ME_BUTTON_CLICK);
         saveCurrentMap();
         switchToMap(currentMap + 1);
+        clearMapEditorSelection();
+    }
+}
+
+void manageMapEditorButtonInteractions() {
+    Vector2 mousePos = GetMousePosition();
+
+    bool clicked = false;
+
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        clicked = true;
+
+        // cycle maps left
+        if (CheckCollisionPointRec(mousePos, mapEditorButtons[1]) && numberOfMaps > 1) {
+            saveCurrentMap();
+            switchToMap(currentMap - 1);
+        }
+
+        // cycle maps right
+        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[2]) && numberOfMaps > 1) {
+            saveCurrentMap();
+            switchToMap(currentMap + 1);
+        }
+
+        // add new map
+        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[3]) && numberOfMaps < MAX_NUMBER_OF_MAPS) {
+            addNewMap();
+        }
+
+        // delete current map
+        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[4]) && numberOfMaps > 1) {
+            deleteCurrentMap();
+        }
+
+        // move map up
+        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[5]) && currentMap < numberOfMaps - 1) {
+            swapMap(currentMap, currentMap + 1);
+        }
+
+        // move map down
+        else if (CheckCollisionPointRec(mousePos, mapEditorButtons[6]) && currentMap > 0) {
+            swapMap(currentMap, currentMap - 1);
+        }
+
+        else {
+            clicked = false;
+        }
+    }
+
+    if (clicked) {
+        playSfx(SFX_ME_BUTTON_CLICK);
         clearMapEditorSelection();
     }
 }
@@ -321,4 +353,51 @@ void clearMapEditorSelection() {
     for (int i = 0; i < numBricks; i++)
         brickSelected[i] = false;
     selectedBricksCount = 0;
+}
+
+void swapMap(int mi1, int mi2) {
+    if (mi1 < 0 || mi1 >= numberOfMaps) {
+        mi1 = (mi1 % numberOfMaps + numberOfMaps) % numberOfMaps;
+    }
+    if (mi2 < 0 || mi2 >= numberOfMaps) {
+        mi2 = (mi2 % numberOfMaps + numberOfMaps) % numberOfMaps;
+    }
+
+    // save changes
+    saveCurrentMap();
+
+    // map to switch to after swap
+    int mapToSwitch = currentMap;
+    if (mi1 == currentMap)
+        mapToSwitch = mi2;
+    else if (mi2 == currentMap)
+        mapToSwitch = mi1;
+
+
+    // store 1st map in tmp file
+    switchToMap(mi1);
+    FILE *tmp1 = tmpfile();
+    writeMapToFile(tmp1);
+
+    // store 2nd map in tmp file
+    switchToMap(mi2);
+    FILE *tmp2 = tmpfile();
+    writeMapToFile(tmp2);
+
+
+    // read 1st map from tmp1 into 2nd map
+    rewind(tmp1);
+    readMapFromFile(tmp1);
+    saveCurrentMap();
+
+    // read 2nd map from tmp2 into 1st map
+    switchToMap(mi1);
+    rewind(tmp2);
+    readMapFromFile(tmp2);
+    saveCurrentMap();
+
+    fclose(tmp1);
+    fclose(tmp2);
+
+    switchToMap(mapToSwitch);
 }

@@ -3,9 +3,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include <maps.h>
-#include <coregame.h>
-#include <bricks.h>
+#include "maps.h"
+#include "coregame.h"
+#include "bricks.h"
 
 int currentMap = 0;
 int numberOfMaps = 0;
