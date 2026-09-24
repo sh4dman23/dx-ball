@@ -12,7 +12,7 @@
 #define MAP_FILES_PATH "./maps"
 
 extern int currentMap;
-extern int numberOfMaps;
+extern int numberOfMaps;                    // Total number of maps available
 
 // #define DEBUG_STARTING_MAP 0                //? comment this out when not being used (0-indexed btw)
 

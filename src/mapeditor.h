@@ -4,7 +4,7 @@
 #include <bricks.h>
 
 #define MAP_EDITOR_BUTTON_SIZE 16
-#define NUM_MAP_EDITOR_BUTTONS 5
+#define NUM_MAP_EDITOR_BUTTONS 7
 extern Rectangle mapEditorButtons[NUM_MAP_EDITOR_BUTTONS];          // button positions
 extern Texture2D mapEditorButtonTextures[NUM_MAP_EDITOR_BUTTONS];   // button images
 
@@ -24,5 +24,8 @@ void manageMapSelections();                             // Manage selection regi
 void updateBrickSelections();                           // Update toggles for brick selections in map editor
 void clearSelectionRegion();                            // Clear selection region in map editor
 void clearMapEditorSelection();                         // Clear all selections in map editor
+
+void manageMapEditorButtonInteractions();               // Manage button interactions in map editor
+void swapMap(int mi1, int mi2);                         // Swap two map files
 
 #endif
