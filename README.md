@@ -53,7 +53,7 @@ There is an inbuilt map maker/editor in the game where the player can edit any m
 
 The project contains all library files required to run the game. Simply clone this repository onto your system and then use the build task in [tasks.json](./.vscode/tasks.json) to compile the game.
 
-You can find a compiled executable in the [releases](https://github.com/sh4dman23/dx-ball/releases/latest). Download **dx-ball-release.zip**, then unzip and run the game.
+You can find a compiled executable for Windows in the [releases](https://github.com/sh4dman23/dx-ball/releases/latest). Download **dx-ball-release.zip**, then unzip and run the game.
 
 ## Credits and Acknowledgement
 
