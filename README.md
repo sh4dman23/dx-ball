@@ -19,8 +19,6 @@ The ball angle is controlled by where it bounces off of the paddle, depending on
 
  The top 10 players with the highest scores can be found in the highscores screen.
 
- **Paddle Controls:** Use arrow keys or mouse to move the paddle.
-
 ### Bricks
 There are 5 types of bricks in the game: 3 standard bricks (<img src="./assets/bricks/1.png" width="30" height="10" alt="Standard Brick 1">, <img src="./assets/bricks/2.png" width="30" height="10" alt="Standard Brick 2">, <img src="./assets/bricks/3.png" width="30" height="10" alt="Standard Brick 3">), indestructive bricks (<img src="./assets/bricks/-1.png" width="30" height="10" alt="Indestructive Brick">) and explosive bricks (<img src="./preview-img/explosive-brick.gif" width="30" height="10" alt="Explosive Brick">).
 
@@ -43,11 +41,21 @@ Perks like <img src="./assets/perks/shrinkpaddle.png" width="16" height="15" alt
 
 ### Map Maker
 
-<img src="./preview-img/map-editor.png" alt="Map Editor" width="800" height="448">
+<img src="./preview-img/map-editor.png" alt="Map Editor" width="800">
 
 There is an inbuilt map maker/editor in the game where the player can edit any map in the game and create upto 1000 maps, which will load in order when playing the game.
 
-**Map Maker Controls:** For changing single bricks, use LMB and RMB to cycle through the brick types and MMB to reset a single brick. For selecting multiple bricks, hold CTRL and drag mouse cursor while holding LMB to select a region or press LMB while holding CTRL to select bricks one by one. Selected bricks can be modified by scrolling up/down or alternatively, using the up/down arrow keys.
+## Controls
+
+#### Paddle Controls
+Use arrow keys or mouse to move the paddle.
+
+#### Map Maker Controls
+Use the <img src="./assets/ui/larrow.png" height="12">, <img src="./assets/ui/rarrow.png" height="12"> buttons at the top of the grid to switch maps. Use <img src="./assets/ui/uarrow.png" height="12">, <img src="./assets/ui/darrow.png" height="12"> to reorder maps. Use <img src="./assets/ui/plus.png" height="12"> to create a new map and <img src="./assets/ui/delete.png" height="12"> to delete a map.
+
+For changing single bricks, use **LMB** and **RMB** to cycle through the brick types and **MMB** to reset a single brick.
+
+For selecting multiple bricks, hold **CTRL** and drag mouse cursor while holding **LMB** to select a region or press **LMB** while holding **CTRL** to select bricks one by one. Selected bricks can be modified by **scrolling up/down** or alternatively, using the **up/down arrow keys**.
 
 ## Installation and Usage
 
