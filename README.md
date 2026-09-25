@@ -56,7 +56,9 @@ Use the <img src="./assets/ui/larrow.png" height="12">, <img src="./assets/ui/ra
 
 For changing single bricks, use **LMB** and **RMB** to cycle through the brick types and **MMB** to reset a single brick.
 
-For selecting multiple bricks, hold **CTRL** and drag mouse cursor while holding **LMB** to select a region or press **LMB** while holding **CTRL** to select bricks one by one. Selected bricks can be modified by **scrolling up/down** or alternatively, using the **up/down arrow keys**.
+For selecting multiple bricks, hold **CTRL** and drag mouse cursor while holding **LMB** to select a region or press **LMB** while holding **CTRL** to select bricks one by one. Selected bricks can be modified by **scrolling up/down** or alternatively, using the **up/down arrow keys**; they can be reset/removed by the **DELETE** key.
+
+Press **ENTER** to save (autosaving happens when you switch maps or exit out of map maker) and **BACKSPACE** to revert changes (cannot revert after saving).
 
 ## Installation and Usage
 
