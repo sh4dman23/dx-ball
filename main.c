@@ -12,7 +12,7 @@
 #include "gamestates.h"
 #include "mainmenu.h"
 #include "render.h"
-#include "fonts.h"
+#include "texts.h"
 
 int main(void)
 {
@@ -32,6 +32,7 @@ int main(void)
     loadAllAudio();
     loadSprites();
 
+    loadAllTexts();
     loadAllFonts();
 
     // initialize game
@@ -77,6 +78,7 @@ int main(void)
     UnloadShader(shader);
     UnloadRenderTexture(targetRenderTexture);
 
+    unloadAllTexts();
     unloadAllFonts();
     unloadSprites();
     unloadAllAudio();

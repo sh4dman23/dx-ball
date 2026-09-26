@@ -1,0 +1,14 @@
+#Paddle Controls
+    Use the mouse or alternatively, the arrow keys to move the paddle.
+
+#Map Maker Controls
+    Use the buttons above the grid to reorder maps, switch maps, add new maps and delete existing maps.
+
+    For changing single bricks, use *LMB* and *RMB* to cycle through the brick types and *MMB* to reset a single brick.
+
+    For selecting multiple bricks, hold *CTRL* and drag mouse cursor while holding *LMB* to select a region or
+    press *LMB* while holding *CTRL* to select bricks one by one. Selected bricks can be modified by *scrolling up/down*
+    or alternatively, using the *up/down arrow keys*; they can be reset/removed by the *DELETE* key.
+
+    Press *ENTER* to save (autosaving happens when you switch maps or exit out of map maker) and *BACKSPACE* to
+    revert changes (cannot revert after saving).

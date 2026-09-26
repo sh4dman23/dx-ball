@@ -5,7 +5,7 @@
 #include "gamestates.h"
 #include "render.h"
 #include "coregame.h"
-#include "fonts.h"
+#include "texts.h"
 
 bool exitGame = false;
 bool justMouseClicked = false;
@@ -36,7 +36,7 @@ void drawMainMenu() {
 void drawMainMenuButtons()
 {
     Rectangle mainMenuButtonRect = {(WINDOW_WIDTH - MAIN_MENU_BUTTON_WIDTH) / 2, WINDOW_HEIGHT / 2 - MAIN_MENU_BUTTON_HEIGHT, MAIN_MENU_BUTTON_WIDTH, MAIN_MENU_BUTTON_HEIGHT};
-    for (int i = 0; i < 4; i++)
+    for (int i = 0; i < 5; i++)
     {
         char *menuButtonText;
         switch (i)
@@ -51,6 +51,9 @@ void drawMainMenuButtons()
             menuButtonText = "High Scores";
             break;
         case 3:
+            menuButtonText = "Controls";
+            break;
+        case 4:
             menuButtonText = "Exit";
             break;
         default:
@@ -89,6 +92,10 @@ void checkMainMenuButtonClick(Vector2 mousePos)
         switchGameState(GS_HIGH_SCORES);
     }
     else if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y + MAIN_MENU_BUTTON_HEIGHT * 3 + 10 * 3 && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT * 4 + 10 * 3))
+    {
+        switchGameState(GS_CONTROLS);
+    }
+    else if (insideRectX_Axis && IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && (mousePos.y >= y + MAIN_MENU_BUTTON_HEIGHT * 4 + 10 * 4 && mousePos.y <= y + MAIN_MENU_BUTTON_HEIGHT * 5 + 10 * 4))
     {
         exitGame = true;
     }

@@ -20,7 +20,7 @@
 #include "perks.h"
 #include "debugview.h"
 #include "laserpaddle.h"
-#include "fonts.h"
+#include "texts.h"
 
 // Core game UI
 const double PADDING_ABOVE_UI = 20;
@@ -182,24 +182,24 @@ void drawLoop()
         drawMainMenu();
     }
     // core game
-    if (gameState == GS_MAIN_GAME)
-    {
+    if (gameState == GS_MAIN_GAME) {
         drawMainGame();
     }
     // game end
-    else if (gameState == GS_GAME_END)
-    {
+    else if (gameState == GS_GAME_END) {
         drawGameEnd();
     }
     // map editor
-    else if (gameState == GS_MAP_EDITOR)
-    {
+    else if (gameState == GS_MAP_EDITOR) {
         drawMapEditor();
     }
     // high scores
-    else if (gameState == GS_HIGH_SCORES)
-    {
+    else if (gameState == GS_HIGH_SCORES) {
         drawHighScoresScreen();
+    }
+    // controls
+    else if (gameState == GS_CONTROLS) {
+        drawControlsScreen();
     }
 }
 
@@ -667,26 +667,41 @@ void drawDebugView()
 // Main menu animations
 void drawMainMenuLogoAnimations()
 {
+    drawMainMenuLogo();
+    drawMainMenuBall();
+}
+
+void drawMainMenuLogo() {
     float frameTime = GetFrameTime();
     mainMenuLogoTimer += frameTime;
-    mainMenuBallTimer += frameTime;
     if (mainMenuLogoTimer >= mainMenuLogoFrameTime)
     {
         mainMenuLogoTimer = 0.0f;
         mainMenuLogoCurrentFrame = (mainMenuLogoCurrentFrame + 1) % MAIN_MENU_LOGO_END;
-    }
-    if (mainMenuBallTimer >= mainMenuBallFrameTime)
-    {
-        mainMenuBallTimer = 0.0f;
-        mainMenuBallCurrentFrame = (mainMenuBallCurrentFrame + 1) % MAIN_MENU_BALL_END;
     }
 
     for (int i = MAIN_MENU_LOGO_START - 1; i < MAIN_MENU_LOGO_END; i++)
     {
         DrawTexture(mainMenuLogo[mainMenuLogoCurrentFrame], (WINDOW_WIDTH - 600) / 2, WINDOW_HEIGHT / 2 - 230, WHITE);
     }
+}
+
+void drawMainMenuBall() {
+    float frameTime = GetFrameTime();
+    mainMenuBallTimer += frameTime;
+    if (mainMenuBallTimer >= mainMenuBallFrameTime)
+    {
+        mainMenuBallTimer = 0.0f;
+        mainMenuBallCurrentFrame = (mainMenuBallCurrentFrame + 1) % MAIN_MENU_BALL_END;
+    }
+
     for (int i = MAIN_MENU_BALL_START - 1; i < MAIN_MENU_BALL_END; i++)
     {
         DrawTexture(mainMenuBall[mainMenuBallCurrentFrame], WINDOW_WIDTH - 180, WINDOW_HEIGHT - 180, WHITE);
     }
+}
+
+void drawControlsScreen() {
+    drawMainMenuBall();
+    drawControlsText();
 }

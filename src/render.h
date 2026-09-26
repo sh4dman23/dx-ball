@@ -18,6 +18,7 @@ void drawDebugView();                   // Draw debug view
 void drawMapEditor();                   // Draw map editor on screen
 void drawHighScoresScreen();            // Draw leaderboards
 void drawGameEnd();                     // Draw victory/defeat screen
+void drawControlsScreen();              // Draw controls screen
 
 void drawMainGameUI();                  // Draw ui for main game
 void drawBall();                        // Draw ball
@@ -27,6 +28,8 @@ void drawPerks();                       // Draw perks
 void drawLasers();                      // Draw laser particles
 
 void drawMainMenuLogoAnimations();      // Main menu animations
+void drawMainMenuLogo();                // Logo animations
+void drawMainMenuBall();                // Ball animations
 
 
 #endif
