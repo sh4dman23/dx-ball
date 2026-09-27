@@ -107,7 +107,11 @@ void switchMusic(int musicIndex)
 // Check user input for changing music
 void checkMusicChange()
 {
-    if (IsKeyDown(KEY_LEFT_SHIFT))
+    // no music controls in game end screen
+    if (gameState == GS_GAME_END)
+        return;
+
+    if (IsKeyDown(KEY_LEFT_SHIFT) || IsKeyDown(KEY_RIGHT_SHIFT))
     {
         if (IsKeyPressed(KEY_APOSTROPHE))
             switchMusic(currMusicIndex + 1);
@@ -115,7 +119,7 @@ void checkMusicChange()
             switchMusic(currMusicIndex - 1);
     }
 
-    if (gameState == GS_MAIN_MENU && IsKeyPressed(KEY_M))
+    if (IsKeyPressed(KEY_M))
         toggleMusic();
 }
 

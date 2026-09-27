@@ -2,8 +2,8 @@
     Use the mouse or alternatively, the arrow keys to move the paddle.
 
 #Music Controls
-    Use *M* to toggle music on/off. Use *LSHIFT + '* and *LSHIFT + ;* to cycle through music. 
-    (Music controls only work on main menu)
+    Use *M* to toggle music on/off.
+    Use *LSHIFT + '* and *LSHIFT + ;* to cycle through music tracks.
 
 #Map Maker Controls
     Use the buttons above the grid to reorder maps, switch maps, add new maps and delete existing maps.
