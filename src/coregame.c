@@ -82,9 +82,11 @@ void updateLoop()
 
         updatePerks();
         updatePaddle();
-        updateBall();
-
         updateLasers();
+
+        if (breakableBricksLeft)
+            updateBall();
+
 
         updateExplosiveBricks();
         updateExplosions();
@@ -121,9 +123,6 @@ void setNewLevel()
     resetAllInput();
     resetPerks();
     resetLasers();
-
-    // start new level with starting lives
-    lives = STARTING_LIVES;
 
     switchToMap(currentMap);
 }
