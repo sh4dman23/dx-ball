@@ -152,7 +152,7 @@ void spawnPerk(int brickIndex)
 
     int *perkSequence = LoadRandomSequence(NUMBER_OF_PERKS, 0, NUMBER_OF_PERKS - 1);
 
-    // double roll = (double)GetRandomValue(0, 100 * 1000) / 1000;
+    // double roll = (double)GetRandomValue(0, 100 * 100) / 100;
     for (int *p = perkSequence, i = *p; p - perkSequence < NUMBER_OF_PERKS; p++, i = *p)
     {
         // perk already on screen => no spawn
@@ -164,7 +164,7 @@ void spawnPerk(int brickIndex)
 
         // roll for rng
         // double roll = ((double) rand() / RAND_MAX) * 100;
-        double roll = (double)GetRandomValue(0, 100 * 1000) / 1000;
+        double roll = (double)GetRandomValue(0, 100 * 100) / 100;
 
         if (roll != 0 && roll <= perks[i].spawnChance) {
             perks[i].pos = (Vector2) {
