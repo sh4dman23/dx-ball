@@ -17,7 +17,7 @@
 const Vector2 PERK_IMG_SIZE = {32, 30};
 
 const Vector2 PERK_SPEED = {0, 200};        // speed at which perk falls down
-const double DELAY_AFTER_PERK_SPAWN = 2;    // in seconds
+const double DELAY_AFTER_PERK_SPAWN = 1;    // in seconds
 const double TIMED_PERK_DURATION = 10;      // base duration for perk that has timer
 
 bool canSpawnPerk = true;
@@ -152,6 +152,7 @@ void spawnPerk(int brickIndex)
 
     int *perkSequence = LoadRandomSequence(NUMBER_OF_PERKS, 0, NUMBER_OF_PERKS - 1);
 
+    // double roll = (double)GetRandomValue(0, 100 * 1000) / 1000;
     for (int *p = perkSequence, i = *p; p - perkSequence < NUMBER_OF_PERKS; p++, i = *p)
     {
         // perk already on screen => no spawn
@@ -163,14 +164,16 @@ void spawnPerk(int brickIndex)
 
         // roll for rng
         // double roll = ((double) rand() / RAND_MAX) * 100;
-        double roll = (double)GetRandomValue(0, 100 * 100) / 100;
+        double roll = (double)GetRandomValue(0, 100 * 1000) / 1000;
 
         if (roll != 0 && roll <= perks[i].spawnChance) {
             perks[i].pos = (Vector2) {
                 bricks[brickIndex].rect.x + (BRICK_WIDTH - PERK_IMG_SIZE.x) / 2,
-                bricks[brickIndex].rect.y};
+                bricks[brickIndex].rect.y
+            };
 
-            return;
+            canSpawnPerk = false;
+            break;
         }
     }
 
@@ -211,11 +214,13 @@ bool isPerkSpawnable(int perkIndex) {
 void delayPerkSpawn()
 {
     static double time = 0;
-    if (canSpawnPerk)
+    if (canSpawnPerk) {
+        time = 0;
         return;
+    }
 
     time += GetFrameTime();
-    if (time > DELAY_AFTER_PERK_SPAWN)
+    if (time >= DELAY_AFTER_PERK_SPAWN)
     {
         time = 0;
         canSpawnPerk = true;
